@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 export default function Main() {
+
 
     return <div className={"row"}>
         <div className={"col"}>
@@ -9,9 +12,13 @@ export default function Main() {
                     </label>
                 </div>
                 <div className={"mb-3"}>
-                    <div className="form-text" style={{"display": "block", "textAlign": "center"}}>
-                        <button className={"btn btn-primary btn-rss me-2"}>Sign In</button>
-                        <button className={"btn btn-primary btn-rss me-2"}>Sign Up</button>
+                    <div className="form-text">
+                        <Link href={"./signin"}>
+                            <button className={"btn btn-primary btn-rss me-2"}>Sign In</button>
+                        </Link>
+                        <Link href={"./signup"}>
+                            <button className={"btn btn-primary btn-rss me-2"}>Sign Up</button>
+                        </Link>
                     </div>
                 </div>
             </form>

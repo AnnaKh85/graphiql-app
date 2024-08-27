@@ -1,4 +1,15 @@
+'use client';
+
+
+import Link from "next/link";
+import {useRouter} from "next/navigation";
+
 export default function SignIn() {
+    const router = useRouter();
+
+    function handleOk() {
+        router.push("/choose")
+    }
 
 
     return (
@@ -14,8 +25,13 @@ export default function SignIn() {
                         <label htmlFor="inputPass" className={"form-label"}>Password</label>
                         <input type="password" className="form-control" id="inputPass" placeholder="password"/>
                     </div>
-                    <button type="button" className={"btn btn-secondary btn-rss mb-3"}>Вход</button>
                 </form>
+            </div>
+            <div className="card-footer d-flex justify-content-center">
+                <button type="button" className={"btn btn-secondary btn-rss mb-3 me-1"} onClick={handleOk}>Вход</button>
+                <Link href={"./"}>
+                    <button className={"btn btn-secondary btn-rss mb-3"}>Отмена</button>
+                </Link>
             </div>
         </div>
     );

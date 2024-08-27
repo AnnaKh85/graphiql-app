@@ -1,10 +1,13 @@
 import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import "./globals.css";
-import "./applications.scss";
 import "../../public/bootstrap-icons.min.css";
+import "./applications.scss";
 import LanguageProvider from "@app/lib/LanguageProvider/LanguageProvider";
 import React from "react";
+import Header from "@app/lib/components/Header/Header";
+import Footer from "@app/lib/components/Footer/Footer";
+import AuthProvider from "@app/lib/AuthProvider/AuthProvider";
 
 
 
@@ -30,9 +33,24 @@ export default function RootLayout({children, }: Readonly<{children: React.React
             </head>
             <body className={"d-flex flex-column min-vh-100"}>
                 <LanguageProvider>
-                    {children}
+                    <AuthProvider>
+                        <nav className={"navbar bg-body-tertiary"}>
+                            <Header />
+                        </nav>
+
+                        <div className={"position-relative m-2 min-vw-100"}>
+                            <div className={"position-absolute start-50 translate-middle-x"}>
+                                {children}
+                            </div>
+                        </div>
+
+                        <footer className={"mt-auto p-2"} style={{"height": "60px", "backgroundColor": "#e4e4e4"}}>
+                            <Footer />
+                        </footer>
+                    </AuthProvider>
                 </LanguageProvider>
             </body>
         </html>
     );
 }
+

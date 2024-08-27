@@ -1,20 +1,43 @@
 @import 'bootstrap/scss/bootstrap.scss';
-
-$grid-breakpoints: (
-    xs: 0,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
-    xxl: 1400px
-
-);
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/utilities";
 
 
 
+//$grid-breakpoints: (
+//    xs: 0,
+//    sm: 576px,
+//    md: 768px,
+//    lg: 992px,
+//    xl: 1200px,
+//    xxl: 1400px
+//ljlkj
+//);
 
 
 
+//$utilities: map-merge(
+//    $utilities,
+//    (
+//        "min-viewport-width": map-merge(
+//            map-get($utilities, "min-viewport-width"),
+//            (
+//                values: map-merge(
+//                        map-get(map-get($utilities, "min-viewport-width"), "values"),
+//                        (80: 80%),
+//                ),
+//            ),
+//        ),
+//    )
+//);
 
 
+.min-vw-80 {
+    min-width: 80vw !important;
+}
+
+.min-vw-90 {
+    min-width: 90vw !important;
+}
 
