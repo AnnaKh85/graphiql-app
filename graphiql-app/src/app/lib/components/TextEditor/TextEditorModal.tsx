@@ -10,7 +10,7 @@ export default function TextEditorModal() {
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                    <TextEditor />
+                    <TextEditor beautifyTrigger={0} value={"0"} onChange={()=>{}}/>
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-outline-secondary btn-rss">Save</button>

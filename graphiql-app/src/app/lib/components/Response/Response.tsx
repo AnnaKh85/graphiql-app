@@ -20,7 +20,7 @@ export default function Response() {
                 <label className={"col-form-label"}>Body:</label>
             </div>
             <div className={"col"}>
-                <TextEditor />
+                <TextEditor beautifyTrigger={0} value={""} onChange={()=>{}}/>
             </div>
 
         </div>
