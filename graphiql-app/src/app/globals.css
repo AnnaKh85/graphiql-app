@@ -114,3 +114,16 @@ a {
 .form-control-rss {
     width: 200px;
 }
+
+nav.navbar-rss, ul.navbar-rss, li.navbar-rss  {
+    background-color: #d5d5d5;
+}
+
+ul.ul-footer-rss > li {
+    align-content: center;
+    text-align: center;
+}
+
+ul.validation-block-rss, p.validation-block-rss {
+  background-color: #fa8484;
+}

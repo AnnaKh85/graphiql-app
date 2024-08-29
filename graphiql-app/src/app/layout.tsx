@@ -7,7 +7,7 @@ import LanguageProvider from "@app/lib/LanguageProvider/LanguageProvider";
 import React from "react";
 import Header from "@app/lib/components/Header/Header";
 import Footer from "@app/lib/components/Footer/Footer";
-import AuthProvider from "@app/lib/AuthProvider/AuthProvider";
+import AuthProvider from "@app/lib/auth/AuthProvider/AuthProvider";
 
 
 
@@ -34,7 +34,7 @@ export default function RootLayout({children, }: Readonly<{children: React.React
             <body className={"d-flex flex-column min-vh-100"}>
                 <LanguageProvider>
                     <AuthProvider>
-                        <nav className={"navbar bg-body-tertiary"}>
+                        <nav className={"navbar navbar-rss"}>
                             <Header />
                         </nav>
 
@@ -44,7 +44,7 @@ export default function RootLayout({children, }: Readonly<{children: React.React
                             </div>
                         </div>
 
-                        <footer className={"mt-auto p-2"} style={{"height": "60px", "backgroundColor": "#e4e4e4"}}>
+                        <footer className={"mt-auto p-2"} style={{"height": "60px"}}>
                             <Footer />
                         </footer>
                     </AuthProvider>

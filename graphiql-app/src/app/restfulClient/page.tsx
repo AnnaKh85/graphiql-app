@@ -2,15 +2,27 @@
 
 import TextEditor from "@app/lib/components/TextEditor/TextEditor";
 import Response from "@app/lib/components/Response/Response";
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {func} from "prop-types";
 import {RECORD_TYPE, getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
+import {useRouter} from "next/navigation";
+import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
 
 
 const appLocalStorage = getAppLocalStorage();
 
 
 export default function RestfulClientPage() {
+    const router = useRouter();
+    const {authProps} = useContext(AUTH_CONTEXT);
+
+    React.useEffect(function() {
+        if (! authProps.isAuth) {
+            router.push("./");
+        }
+    }, []);
+
+
     const [beautifyCnt, setBeautifyCnt] = useState<number>(0);
     const [headers, setHeaders] = useState<{seq: number, key: string, value: string}[]>([]);
     const [requestType, setRequestType] = useState<string>("POST");
@@ -171,10 +183,10 @@ export default function RestfulClientPage() {
                     </div>
 
                     <div className={"row mt-2"}>
-                        <div className={"col-auto"}>
+                        <div className={"col-auto pe-1"}>
                             <button type="button" className={"btn btn-rss btn-outline-secondary"} onClick={runQuery}>Выполнить</button>
                         </div>
-                        <div className={"col-auto"}>
+                        <div className={"col-auto ps-0"}>
                             <button type="button" className={"btn btn-rss btn-outline-secondary"}>Очистить</button>
                         </div>
                     </div>

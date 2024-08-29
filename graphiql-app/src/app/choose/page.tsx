@@ -1,6 +1,19 @@
+'use client'
+
 import Link from "next/link";
+import React, {useContext} from "react";
+import {useRouter} from "next/navigation";
+import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
 
 export default function ChooseClientPage() {
+    const router = useRouter();
+    const {authProps} = useContext(AUTH_CONTEXT);
+
+    React.useEffect(function() {
+        if (! authProps.isAuth) {
+            router.push("./");
+        }
+    }, []);
 
 
     return (
@@ -8,7 +21,7 @@ export default function ChooseClientPage() {
             <div className={"row"}>
                 <div className={"col"}>
                     <div className={"position-relative m-2"}>
-                        <label className={"form-label position-relative start-50 translate-middle-x"}>Welcome, [Username]!</label>
+                        <label className={"form-label position-relative start-50 translate-middle-x"}>Welcome, [<span style={{"fontWeight": "bold"}}>{authProps.email}</span>]</label>
                     </div>
                 </div>
             </div>
