@@ -10,6 +10,7 @@ import {consoleLogError} from "@app/lib/utils/consoleUtils";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import signupSchema from "@app/lib/validator/validator.signup.yup";
+import {useTranslations} from "next-intl";
 
 
 export type SignupProps = {
@@ -22,12 +23,11 @@ export type SignupProps = {
 
 //Регистрация
 export default function SignUp() {
-    // const [emailValue, setEmailValue] = useState<string>("");
-    // const [passValue, setPassValue] = useState<string>("");
-    // const [passRValue, setPassRValue] = useState<string>("");
-
     const router = useRouter();
     const {authProps, setAuthProps} = useContext(AUTH_CONTEXT);
+
+    const t = useTranslations("SIGNUP");
+    const tBut = useTranslations("BUTTONS");
 
     const {register, trigger, formState: {errors, isValid}, getValues, setValue, control} = useForm({
         resolver: yupResolver(signupSchema),
@@ -70,36 +70,36 @@ export default function SignUp() {
     return (
         <div className={"card"} style={{"width": "31rem"}}>
             <div className={"card-body"}>
-                <h5 className={"card-title"}>Регистрация в программе</h5>
+                <h5 className={"card-title"}>{t("head")}</h5>
                 <form>
                     <div className={"mb-3"}>
-                        <label htmlFor="inputEmail" className={"form-label"}>Email</label>
+                        <label htmlFor="inputEmail" className={"form-label"}>{t("email")}</label>
                         <input type="email"
                                className="form-control"
                                id="inputEmail"
-                               placeholder="email"
+                               placeholder={t("email")}
                                {...register("email")}
                         />
                         <p className={"validation-block-rss"}>{errors.email?.message}</p>
                     </div>
 
                     <div className={"mb-3"}>
-                        <label htmlFor="inputPass" className={"form-label"}>Password</label>
+                        <label htmlFor="inputPass" className={"form-label"}>{t("password")}</label>
                         <input type="password"
                                className="form-control"
                                id="inputPass"
-                               placeholder="password"
+                               placeholder={t("password")}
                                {...register("password")}
                         />
                         <p className={"validation-block-rss"}>{errors.password?.message}</p>
                     </div>
 
                     <div className={"mb-3"}>
-                        <label htmlFor="inputPass" className={"form-label"}>Password repeat</label>
+                        <label htmlFor="inputPass" className={"form-label"}>{t("password_repeat")}</label>
                         <input type="password"
                                className="form-control"
                                id="inputPass"
-                               placeholder="password repeat"
+                               placeholder={t("password_repeat")}
                                {...register("passwordRepeat")}
                         />
                     </div>
@@ -107,12 +107,12 @@ export default function SignUp() {
             </div>
 
             <div className="card-footer d-flex justify-content-center">
-                <button type="button" className={"btn btn-secondary mb-3 me-1"} onClick={handleOk}>Зарегистрировать</button>
+                <button type="button" className={"btn btn-secondary mb-3 me-1"} onClick={handleOk}>{tBut("registration")}</button>
                 <Link href={"./"}>
-                    <button className={"btn btn-secondary btn-rss mb-3 me-1"}>Отмена</button>
+                    <button className={"btn btn-secondary btn-rss mb-3 me-1"}>{tBut("cancel")}</button>
                 </Link>
                 <Link href={"./signin"}>
-                    <button className={"btn btn-outline-success btn-rss mb-3"}> --&gt; Вход</button>
+                    <button className={"btn btn-outline-success btn-rss mb-3"}> --&gt; {tBut("enter")}</button>
                 </Link>
             </div>
         </div>

@@ -13,9 +13,10 @@ export default function Main() {
     const locale = useLocale();
     const t = useTranslations("HEADER");
 
+
     React.useEffect(function() {
         if (authProps.isAuth) {
-            router.push(`/${locale}/choose`);
+            router.push(`/choose`);
         }
     }, []);
 
@@ -31,7 +32,7 @@ export default function Main() {
                 </div>
                 <div className={"mb-3"}>
                     <div className="form-text">
-                        <Link href={`/${locale}/signin`}>
+                        <Link href={`/signin`}>
                             <button className={"btn btn-primary btn-rss me-2"}>{t("signinButton")}</button>
                         </Link>
                         <Link href={"./signup"}>

@@ -1,12 +1,14 @@
 'use client';
 
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, startTransition} from "react";
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
 import {logout} from "@app/lib/auth/firebase";
 
-import {useTranslations} from "next-intl";
-import {Link, useRouter, usePathname, redirect} from "@/i18n/routing";
-import {useParams} from "next/navigation";
+import {useTranslations, useLocale} from "next-intl";
+// import {Link, useRouter, usePathname, redirect} from "@/i18n/routing";
+import {useParams, usePathname, useRouter} from "next/navigation";
+import Link from "next/link";
+import {setUserLocale} from "@app/lib/locale/locale";
 
 
 type HeaderProps = {
@@ -15,7 +17,8 @@ type HeaderProps = {
 
 
 
-export default function Header({locale}: HeaderProps): React.ReactNode {
+export default function Header(): React.ReactNode {
+    const locale = useLocale();
     const [lang, setLang] = useState<string>(locale || "en");
 
     const router = useRouter();
@@ -40,18 +43,22 @@ export default function Header({locale}: HeaderProps): React.ReactNode {
         const locale = e.target.value;
         setLang(locale);
 
+        startTransition(() => {
+            setUserLocale(locale);
+        });
+
+
         // const newPath = pathname.substring(3);
 
         // @ts-ignore
-        router.replace(
-            pathname,
-            {locale: locale}
-        );
+        // router.replace(
+        //     pathname,
+        //     {locale: locale}
+        // );
 
         // @ts-ignore
         // router.push(
         //     pathname,
-        //     {locale: locale}
         // );
 
         // router.push(pathname, {locale: locale});

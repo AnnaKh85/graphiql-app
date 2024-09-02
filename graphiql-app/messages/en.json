@@ -8,7 +8,20 @@
         "History": "History"
     },
     "SIGNIN": {
-        "head": "Enter to program"
+        "head": "Enter to program",
+        "email": "Email",
+        "password": "Password"
+    },
+    "SIGNUP": {
+        "head": "Registration in program",
+        "email": "Email",
+        "password": "Password",
+        "password_repeat": "Password repeat"
+    },
+    "BUTTONS": {
+        "cancel": "Cancel",
+        "enter": "Enter",
+        "registration": "Registration"
     }
 }
 

@@ -8,7 +8,20 @@
         "History": "История"
     },
     "SIGNIN": {
-        "head": "Вход в программу"
+        "head": "Вход в программу",
+        "email": "Email",
+        "password": "Пароль"
+    },
+    "SIGNUP": {
+        "head": "Регистрация в программе",
+        "email": "Email",
+        "password": "Пароль",
+        "password_repeat": "Повторить пароль"
+    },
+    "BUTTONS": {
+        "cancel": "Отмена",
+        "enter": "Вход",
+        "registration": "Регистрация"
     }
 }
 

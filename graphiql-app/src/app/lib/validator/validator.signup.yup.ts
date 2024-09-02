@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import {SignupProps} from "@app/[locale]/signup/page";
+import {SignupProps} from "@app/signup/page";
 
 
 const PASSW_HELP = "Length minimum 8 symbols, at least one letter, one digit, one special character";
