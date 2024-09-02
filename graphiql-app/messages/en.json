@@ -1,0 +1,15 @@
+{
+    "HEADER": {
+        "welcome": "Welcome",
+        "signupButton": "Sign Up",
+        "signinButton": "Sign In"
+    },
+    "CHOOSE": {
+        "History": "History"
+    },
+    "SIGNIN": {
+        "head": "Enter to program"
+    }
+}
+
+

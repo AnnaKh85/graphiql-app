@@ -112,7 +112,7 @@ a {
 }
 
 .form-control-rss {
-    width: 200px;
+    min-width: 200px;
 }
 
 nav.navbar-rss, ul.navbar-rss, li.navbar-rss  {

@@ -1,13 +1,15 @@
 'use client'
 
-import Link from "next/link";
 import React, {useContext} from "react";
-import {useRouter} from "next/navigation";
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
+import {useRouter, Link} from "@/i18n/routing";
+import {useTranslations} from "next-intl";
 
 export default function ChooseClientPage() {
     const router = useRouter();
     const {authProps} = useContext(AUTH_CONTEXT);
+    const t = useTranslations("CHOOSE");
+
 
     React.useEffect(function() {
         if (! authProps.isAuth) {
@@ -36,7 +38,7 @@ export default function ChooseClientPage() {
                             <Link href={"/graphiQlClient"}>GraphiQL Client</Link>
                         </li>
                         <li className={"list-group-item"}>
-                            <Link href={"/history"}>History</Link>
+                            <Link href={"/history"}>{t('History')}</Link>
                         </li>
                     </ul>
                 </div>

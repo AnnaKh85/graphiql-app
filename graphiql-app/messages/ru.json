@@ -1,0 +1,14 @@
+{
+    "HEADER": {
+        "welcome": "Добро пожаловать",
+        "signupButton": "Регистрация",
+        "signinButton": "Вход"
+    },
+    "CHOOSE": {
+        "History": "История"
+    },
+    "SIGNIN": {
+        "head": "Вход в программу"
+    }
+}
+

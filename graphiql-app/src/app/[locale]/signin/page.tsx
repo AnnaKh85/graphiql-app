@@ -1,19 +1,24 @@
 'use client';
 
 
-import Link from "next/link";
-import {useRouter} from "next/navigation";
 import {useContext, useState} from "react";
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
 import {logInWithEmailAndPassword} from "@app/lib/auth/firebase";
 import {consoleLogError} from "@app/lib/utils/consoleUtils";
+import {useRouter, Link} from "@/i18n/routing";
+import {useTranslations, useLocale} from "next-intl";
 
+
+//Вход
 export default function SignIn() {
     const [emailValue, setEmailValue] = useState<string>("");
     const [passValue, setPassValue] = useState<string>("");
 
     const router = useRouter();
+    const locale = useLocale();
     const {authProps, setAuthProps} = useContext(AUTH_CONTEXT);
+
+    const t = useTranslations("SIGNIN");
 
 
     function handleOk() {
@@ -24,7 +29,8 @@ export default function SignIn() {
                     email: emailValue,
                     userId: emailValue
                 });
-                router.push("/choose")
+                // @ts-ignore
+                router.push("/choose", {locale: locale});
             }
         }, function (e) {
             consoleLogError(e);
@@ -36,7 +42,7 @@ export default function SignIn() {
     return (
         <div className={"card"} style={{"width": "31rem"}}>
             <div className={"card-body"}>
-                <h5 className={"card-title"}>Вход в программу</h5>
+                <h5 className={"card-title"}>{t("head")}</h5>
                 <form>
                     <div className={"mb-3"}>
                         <label htmlFor="inputEmail" className={"form-label"}>Email</label>
