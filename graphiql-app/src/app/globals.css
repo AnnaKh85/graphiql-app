@@ -127,3 +127,7 @@ ul.ul-footer-rss > li {
 ul.validation-block-rss, p.validation-block-rss {
   background-color: #fa8484;
 }
+
+.table-rss > tbody > * > * {
+    padding: 2px !important;
+}

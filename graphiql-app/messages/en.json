@@ -4,6 +4,10 @@
         "signupButton": "Sign Up",
         "signinButton": "Sign In"
     },
+    "FOOTER": {
+        "author": "Author",
+        "project": "Project"
+    },
     "CHOOSE": {
         "History": "History",
         "REST_Client": "REST Client",

@@ -4,6 +4,10 @@
         "signupButton": "Регистрация",
         "signinButton": "Вход"
     },
+    "FOOTER": {
+        "author": "Автор",
+        "project": "Проект"
+    },
     "CHOOSE": {
         "History": "История",
         "REST_Client": "REST клиент",

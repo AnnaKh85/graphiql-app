@@ -4,15 +4,16 @@ import TextEditor from "@app/lib/components/TextEditor/TextEditor";
 import Response from "@app/lib/components/Response/Response";
 import React, {useState, useContext} from "react";
 import {RECORD_TYPE, getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
-import {usePathname, useRouter, useSelectedLayoutSegment} from "next/navigation";
+import {usePathname, useRouter, useSelectedLayoutSegment, useSearchParams} from "next/navigation";
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
 import {doRestRequest} from "@app/lib/http/restSender";
-import {consoleLog, consoleLogValue} from "@app/lib/utils/consoleUtils";
+import {consoleLog, consoleLogValue, consoleLogValues} from "@app/lib/utils/consoleUtils";
 import {HttpHeader} from "@app/lib/types/types";
 import {
     toBase64_fromString_new, fromBase64_toString_new
 } from "@app/lib/utils/convert";
 import {makeItBeautiful} from "@app/lib/utils/beautifyUtils";
+import {notEmptyString} from "@app/lib/utils/stringUtils";
 
 
 const appLocalStorage = getAppLocalStorage();
@@ -21,7 +22,16 @@ const appLocalStorage = getAppLocalStorage();
 export default function RestfulClientPage({params}: {params: {method: string, paramsBase64: string[]}}) {
     const router = useRouter();
     const path = usePathname();
+    const queryParams = useSearchParams();
     const {authProps} = useContext(AUTH_CONTEXT);
+
+
+    const [beautifyCnt, setBeautifyCnt] = useState<number>(0);
+    const [headers, setHeaders] = useState<HttpHeader[]>([]);
+    const [requestType, setRequestType] = useState<string>(params.method);
+    const [requestUrl, setRequestUrl] = useState<string>("https://jsonplaceholder.typicode.com/posts/1");
+    const [requestBody, setRequestBody] = useState<string>("");
+
 
     React.useEffect(function() {
         // if (! authProps.isAuth) {
@@ -31,6 +41,8 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
 
 
         const globalParamsBase64 = params.paramsBase64;
+        const globalSearchParams = queryParams;
+
         if (globalParamsBase64 && globalParamsBase64.length) {
 
             for (let i = 0; i < globalParamsBase64.length; i++) {
@@ -45,20 +57,72 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
             }
         }
 
+        if (globalSearchParams && globalSearchParams.size > 0) {
+            globalSearchParams.forEach(function(v, k) {
+                const key = fromBase64_toString_new(k);
+                const value = fromBase64_toString_new(v);
+
+                addHeader(key, value);
+
+                //consoleLogValues("v=" + value + ",k=" + key);
+            });
+        }
+
     }, []);
 
 
-    const [beautifyCnt, setBeautifyCnt] = useState<number>(0);
-    const [headers, setHeaders] = useState<HttpHeader[]>([]);
-    const [requestType, setRequestType] = useState<string>(params.method);
-    const [requestUrl, setRequestUrl] = useState<string>("https://jsonplaceholder.typicode.com/posts/1");
-    const [requestBody, setRequestBody] = useState<string>("");
+    function buildUrl(method: string, url: string, body: string, hdrs: HttpHeader[]): string {
+        const globalPath = path;
+        const globalParamsBase64 = params.paramsBase64;
+
+        const pathPart = globalPath.split("/");
+        if (globalParamsBase64) {
+            pathPart.splice(-globalParamsBase64.length);
+        }
+        pathPart.splice(-1);
+
+        pathPart.push(method);
+
+        if (!url) {
+            pathPart.push(toBase64_fromString_new(" "));
+        } else {
+            pathPart.push(toBase64_fromString_new(url));
+        }
+        if (!body) {
+            pathPart.push(toBase64_fromString_new(" "));
+        } else {
+            pathPart.push(toBase64_fromString_new(body));
+        }
+
+        const hObj: string[] = [];
+        for (let j = 0; j < hdrs.length; j++) {
+            const key = hdrs[j].key;
+            const value =  hdrs[j].value || " ";
+
+            if (notEmptyString(key)) {
+                hObj.push(`${toBase64_fromString_new(key)}=${toBase64_fromString_new(value)}`)
+            }
+        }
 
 
-    function addHeader() {
+        let MAIN_URL_PART: string;
+
+        if (hObj.length > 0) {
+            MAIN_URL_PART = `${pathPart.join("/")}?${hObj.join("&")}`;
+        } else {
+            MAIN_URL_PART = pathPart.join("/");
+        }
+
+        return MAIN_URL_PART;
+    }
+
+
+
+
+    function addHeader(key?: string, value?: string) {
         let max = 0;
         headers.forEach(v => max = v.seq > max ? v.seq : max);
-        let list = [...headers, {seq: max + 1, key: "", value: ""}]
+        let list = [...headers, {seq: max + 1, key: key || "", value: value || ""}]
         setHeaders(list);
     }
 
@@ -93,53 +157,20 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         setHeaders(list);
     }
 
-
-    function buildUrl(method: string, url: string, body: string): string {
-        const globalPath = path;
-        const globalParamsBase64 = params.paramsBase64;
-
-        const pathPart = globalPath.split("/");
-        if (globalParamsBase64) {
-            pathPart.splice(-globalParamsBase64.length);
-        }
-        pathPart.splice(-1);
-
-        pathPart.push(method);
-
-        if (!url) {
-            pathPart.push(toBase64_fromString_new(" "));
-        } else {
-            pathPart.push(toBase64_fromString_new(url));
-        }
-        if (!body) {
-            pathPart.push(toBase64_fromString_new(" "));
-        } else {
-            pathPart.push(toBase64_fromString_new(body));
-        }
-
-        return pathPart.join("/");
-    }
-
-
     function handleChangeRequestType(newValue: string) {
         setRequestType(newValue);
 
         router.push(
-            buildUrl(newValue, requestUrl, requestBody)
+            buildUrl(newValue, requestUrl, requestBody, headers)
         );
     }
 
-    function handleRequestUrlLeave() {
+    function handleLeave() {
         router.push(
-            buildUrl(requestType, requestUrl, requestBody)
+            buildUrl(requestType, requestUrl, requestBody, headers)
         )
     }
 
-    function handleRequestBodyLeave() {
-        router.push(
-            buildUrl(requestType, requestUrl, requestBody)
-        )
-    }
 
     function collectDataForSave() {
         const res = {
@@ -170,14 +201,14 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         return headers.map((h, i) => {
             return (
                 <tr key={h.seq + ":" + i}>
-                    <td>
+                    <td style={{"textAlign": "center", "alignContent": "center"}}>
                         <button className={"btn btn-sm btn-outline-secondary"} onClick={() => delHeader(h.seq)}><i className="bi bi-cart-x"></i></button>
                     </td>
                     <td>
-                        <input type="text" className={"form-control"} value={h.key} onChange={e => setHeaderKey(h.seq, e.target.value)} />
+                        <input type="text" className={"form-control"} value={h.key} onChange={e => setHeaderKey(h.seq, e.target.value)} onBlur={handleLeave} />
                     </td>
                     <td>
-                        <input type="text" className={"form-control"} value={h.value} onChange={e => setHeaderValue(h.seq, e.target.value)} />
+                        <input type="text" className={"form-control"} value={h.value} onChange={e => setHeaderValue(h.seq, e.target.value)} onBlur={handleLeave} />
                     </td>
                 </tr>
             );
@@ -203,7 +234,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                         <div className={"col-9"}>
                             <div className="mb-1">
                                 <label className={"form-label"}>Endpoint URL</label>
-                                <input className={"form-control"} type="url" value={requestUrl} onChange={e => setRequestUrl(e.target.value)} onBlur={handleRequestUrlLeave} />
+                                <input className={"form-control"} type="url" value={requestUrl} onChange={e => setRequestUrl(e.target.value)} onBlur={handleLeave} />
                             </div>
                         </div>
                     </div>
@@ -215,7 +246,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                                     <label className={"col-form-label"}>Headers:</label>
                                 </div>
                                 <div className={"col-auto"}>
-                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={addHeader}>
+                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={(e) => addHeader()}>
                                         <i className="bi bi-plus-circle"></i>
                                     </button>
                                 </div>
@@ -223,7 +254,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
 
                             <div className={"row"}>
                                 <div className={"col"}>
-                                    <table className={"table table-bordered"}>
+                                    <table className={"table table-bordered table-rss"}>
                                         <thead>
                                         <tr>
                                             <th style={{"width": "50px"}}>Del</th>
@@ -251,7 +282,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                                     </button>
                                 </div>
                                 <div className={"col"}>
-                                    <TextEditor beautifyTrigger={beautifyCnt} value={requestBody} onChange={v => setRequestBody(v)} onBlur={handleRequestBodyLeave} />
+                                    <TextEditor beautifyTrigger={beautifyCnt} value={requestBody} onChange={v => setRequestBody(v)} onBlur={handleLeave} />
                                 </div>
                             </div>
                         </div>

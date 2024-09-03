@@ -35,17 +35,17 @@ export default async function RootLayout({children, params}: Readonly<{children:
             <body className={"d-flex flex-column min-vh-100"}>
                 <AuthProvider>
                     <NextIntlClientProvider messages={messages}>
-                        <nav className={"navbar navbar-rss"}>
+                        <nav className={"navbar fixed-top p-0 navbar-rss"}>
                             <Header />
                         </nav>
 
-                        <div className={"position-relative m-2 min-vw-100"}>
-                            <div className={"position-absolute start-50 translate-middle-x"}>
+                        <div className={"position-relative min-vw-100"} >
+                            <div className={"position-absolute start-50 translate-middle-x"} style={{"paddingTop": "80px", "paddingBottom": "60px"}}>
                                 {children}
                             </div>
                         </div>
 
-                        <footer className={"mt-auto p-2"} style={{"height": "60px"}}>
+                        <footer className={"mt-auto py-1 w-100 position-absolute bottom-0 start-50 translate-middle-x"}>
                             <Footer />
                         </footer>
                     </NextIntlClientProvider>
