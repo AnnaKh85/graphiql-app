@@ -5,7 +5,9 @@
         "signinButton": "Sign In"
     },
     "CHOOSE": {
-        "History": "History"
+        "History": "History",
+        "REST_Client": "REST Client",
+        "GraphiQL_Client": "GraphiQL Client"
     },
     "SIGNIN": {
         "head": "Enter to program",
@@ -22,6 +24,9 @@
         "cancel": "Cancel",
         "enter": "Enter",
         "registration": "Registration"
+    },
+    "NOT_FOUND": {
+        "text": "Not found (404)"
     }
 }
 

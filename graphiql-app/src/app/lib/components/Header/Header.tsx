@@ -11,12 +11,6 @@ import Link from "next/link";
 import {setUserLocale} from "@app/lib/locale/locale";
 
 
-type HeaderProps = {
-    locale: string
-}
-
-
-
 export default function Header(): React.ReactNode {
     const locale = useLocale();
     const [lang, setLang] = useState<string>(locale || "en");
@@ -46,22 +40,6 @@ export default function Header(): React.ReactNode {
         startTransition(() => {
             setUserLocale(locale);
         });
-
-
-        // const newPath = pathname.substring(3);
-
-        // @ts-ignore
-        // router.replace(
-        //     pathname,
-        //     {locale: locale}
-        // );
-
-        // @ts-ignore
-        // router.push(
-        //     pathname,
-        // );
-
-        // router.push(pathname, {locale: locale});
     }
 
 
@@ -76,24 +54,6 @@ export default function Header(): React.ReactNode {
             </Link>
 
             <div className={"d-flex"}>
-                {/*<div className="dropdown me-2" style={{"width": "220px"}}>*/}
-                {/*    <a className="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">*/}
-                {/*        язык*/}
-                {/*    </a>*/}
-                {/*    <ul className={"dropdown-menu"}>*/}
-                {/*        <li>*/}
-                {/*            <Link href={"."} locale={"en"} replace={true} className={"dropdown-item"}>*/}
-                {/*                English*/}
-                {/*            </Link>*/}
-                {/*        </li>*/}
-                {/*        <li>*/}
-                {/*            <Link href={"."} locale={"ru"} replace={true} className={"dropdown-item"}>*/}
-                {/*                Русский*/}
-                {/*            </Link>*/}
-                {/*        </li>*/}
-                {/*    </ul>*/}
-                {/*</div>*/}
-
                 <select className={"form-select me-2"} value={lang} style={{"width": "220px"}} onChange={handleLocaleChange} >
                     <option value={"en"}>English</option>
                     <option value={"ru"}>Русский</option>
@@ -105,12 +65,12 @@ export default function Header(): React.ReactNode {
                 {
                     !authProps.isAuth &&
                     <>
-                    <Link href={"./signin"}>
+                    <Link href={"/signin"}>
                         <button className={"btn btn-outline-secondary btn-rss me-2"} type="button">
                             {t('signinButton')}
                         </button>
                     </Link>
-                    <Link href={"./signup"}>
+                    <Link href={"/signup"}>
                         <button className={"btn btn-outline-secondary btn-rss me-2"} type="button">
                             {t('signupButton')}
                         </button>

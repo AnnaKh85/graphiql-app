@@ -34,10 +34,10 @@ export default function ChooseClientPage() {
                 <div className={"col"}>
                     <ul className={"list-group list-group-horizontal"}>
                         <li className={"list-group-item"}>
-                            <Link href={"/restfulClient"}>REST Client</Link>
+                            <Link href={"/restfulClient/GET"}>{t("REST_Client")}</Link>
                         </li>
                         <li className={"list-group-item"}>
-                            <Link href={"/graphiQlClient"}>GraphiQL Client</Link>
+                            <Link href={"/graphiQlClient"}>{t("GraphiQL_Client")}</Link>
                         </li>
                         <li className={"list-group-item"}>
                             <Link href={"/history"}>{t('History')}</Link>

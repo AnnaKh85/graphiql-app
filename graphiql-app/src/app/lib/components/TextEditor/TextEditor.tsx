@@ -1,11 +1,13 @@
 'use client';
 
 import {useState, useEffect} from "react";
+import {makeItBeautiful} from "@app/lib/utils/beautifyUtils";
 
 type Props = {
     beautifyTrigger: number,
     value: string,
-    onChange: (v: string) => void
+    onChange: (v: string) => void,
+    onBlur?: () => void
 }
 
 
@@ -19,18 +21,25 @@ export default function TextEditor(props: Props) {
 
     useEffect(function() {
         if (props.beautifyTrigger > 0) {
-            try {
-                let jsonTmp = JSON.parse(value);
-                let v2 = JSON.stringify(jsonTmp, null, 4);
-                setValue(v2);
-            } catch (e) {
+            const resBeaut = makeItBeautiful(value);
+            if (resBeaut !== value) {
+                setValue(resBeaut);
             }
         }
     }, [props.beautifyTrigger]);
 
+    useEffect(function() {
+        setValue(props.value);
+    }, [props.value]);
+
 
     return <>
-        <textarea className={"form-control"} value={value} onChange={e => handleChange(e.target.value)}></textarea>
+        <textarea className={"form-control"}
+                  value={value}
+                  onChange={e => handleChange(e.target.value)}
+                  onBlur={props.onBlur}
+                  style={{"minHeight": "150px"}}
+        ></textarea>
     </>;
 }
 

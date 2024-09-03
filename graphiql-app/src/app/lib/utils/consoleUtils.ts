@@ -7,6 +7,11 @@ function consoleLogError(text: string) {
 }
 
 
+
+function consoleLogValue(value: any) {
+    console.log(["2:", value]);
+}
+
 function consoleLogValues(...values: any[]) {
     console.log(["2:", ...values]);
 }
@@ -16,4 +21,4 @@ function consoleLogValuesError(...values: any[]) {
 }
 
 
-export {consoleLog, consoleLogError, consoleLogValues, consoleLogValuesError};
+export {consoleLog, consoleLogError, consoleLogValue, consoleLogValues, consoleLogValuesError};

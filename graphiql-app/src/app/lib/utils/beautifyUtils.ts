@@ -1,11 +1,12 @@
-function getFine(inputText: string): string {
-    return inputText;
+export function makeItBeautiful(text: string): string {
+    try {
+        let jsonTmp = JSON.parse(text);
+        let v2 = JSON.stringify(jsonTmp, null, 4);
+        return v2;
+    } catch (e) {
+    }
+
+    return text;
 }
 
-// JSON.stringify(jsObj, null, "\t"); // stringify with tabs inserted at each level
-// JSON.stringify(jsObj, null, 4);    // stringify with 4 spaces at each level
-
-
-
-export {getFine};
 

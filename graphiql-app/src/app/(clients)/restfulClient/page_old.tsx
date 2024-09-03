@@ -5,8 +5,11 @@ import Response from "@app/lib/components/Response/Response";
 import React, {useState, useContext} from "react";
 import {func} from "prop-types";
 import {RECORD_TYPE, getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
+import {doRestRequest} from "@app/lib/http/restSender";
+import {consoleLog, consoleLogValue} from "@app/lib/utils/consoleUtils";
+import {HttpHeader} from "@app/lib/types/types";
 
 
 const appLocalStorage = getAppLocalStorage();
@@ -14,19 +17,20 @@ const appLocalStorage = getAppLocalStorage();
 
 export default function RestfulClientPage() {
     const router = useRouter();
+    const path = usePathname();
     const {authProps} = useContext(AUTH_CONTEXT);
 
-    React.useEffect(function() {
+    /*React.useEffect(function() {
         if (! authProps.isAuth) {
             router.push("./");
         }
-    }, []);
+    }, []);*/
 
 
     const [beautifyCnt, setBeautifyCnt] = useState<number>(0);
-    const [headers, setHeaders] = useState<{seq: number, key: string, value: string}[]>([]);
-    const [requestType, setRequestType] = useState<string>("POST");
-    const [requestUrl, setRequestUrl] = useState<string>("");
+    const [headers, setHeaders] = useState<HttpHeader[]>([]);
+    const [requestType, setRequestType] = useState<string>("GET");
+    const [requestUrl, setRequestUrl] = useState<string>("https://jsonplaceholder.typicode.com/posts/1");
     const [requestBody, setRequestBody] = useState<string>("");
 
 
@@ -68,6 +72,14 @@ export default function RestfulClientPage() {
         setHeaders(list);
     }
 
+    function handleChangeRequestType(newValue: string) {
+        setRequestType(newValue);
+        /*router.  ph() (
+            path,
+            undefined,
+            {shallow: true}
+        );*/
+    }
 
     function collectDataForSave() {
         const res = {
@@ -80,8 +92,11 @@ export default function RestfulClientPage() {
     }
 
 
-    function runQuery() {
+    async function runQuery() {
         appLocalStorage.addToHistory(RECORD_TYPE.REST, "test", collectDataForSave());
+
+        const res = await doRestRequest(requestType, requestUrl, requestBody, "application/json", []);
+        consoleLogValue(res);
     }
 
 
@@ -119,7 +134,7 @@ export default function RestfulClientPage() {
                         <div className={"col-3"}>
                             <div className="mb-1">
                                 <label className={"form-label"}>Method</label>
-                                <select className={"form-select"} value={requestType} onChange={e => setRequestType(e.target.value)}>
+                                <select className={"form-select"} value={requestType} onChange={e => handleChangeRequestType(e.target.value)}>
                                     <option value="POST">POST</option>
                                     <option value="GET">GET</option>
                                 </select>

@@ -5,7 +5,9 @@
         "signinButton": "Вход"
     },
     "CHOOSE": {
-        "History": "История"
+        "History": "История",
+        "REST_Client": "REST клиент",
+        "GraphiQL_Client": "GraphiQL клиент"
     },
     "SIGNIN": {
         "head": "Вход в программу",
@@ -22,6 +24,9 @@
         "cancel": "Отмена",
         "enter": "Вход",
         "registration": "Регистрация"
+    },
+    "NOT_FOUND": {
+        "text": "Страница не найдена (404)"
     }
 }
 

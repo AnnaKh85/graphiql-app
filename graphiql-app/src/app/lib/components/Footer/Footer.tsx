@@ -14,9 +14,9 @@ export default function Footer() {
                     </li>
                     <li className={"list-group-item navbar-rss"} style={{"width": "100px"}}>
                         <a href="https://rs.school/react/" target={"_blank"}>
-                            <img src="/rss-course-logo-1.png"
+                            <img src="/rss-logo.svg"
                                  className={"img-fluid"}
-                                 alt="course logo" width="30" height="30"
+                                 alt="course logo" width="28" height="28"
                                  style={{"aspectRatio": "auto", "border": "1px", "borderStyle": "solid", "borderRadius": "3px"}}
                             />
                         </a>
