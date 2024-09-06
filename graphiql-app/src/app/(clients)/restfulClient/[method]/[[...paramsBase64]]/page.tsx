@@ -3,17 +3,17 @@
 import TextEditor from "@app/lib/components/TextEditor/TextEditor";
 import Response from "@app/lib/components/Response/Response";
 import React, {useState, useContext} from "react";
-import {RECORD_TYPE, getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
+import {getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
 import {usePathname, useRouter, useSelectedLayoutSegment, useSearchParams} from "next/navigation";
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
 import {doRestRequest} from "@app/lib/http/restSender";
 import {consoleLog, consoleLogValue, consoleLogValues} from "@app/lib/utils/consoleUtils";
-import {HttpHeader} from "@app/lib/types/types";
+import {HttpHeader, HistoryRecordType, HistoryPayload} from "@app/lib/types/types";
 import {
     toBase64_fromString_new, fromBase64_toString_new
 } from "@app/lib/utils/convert";
 import {makeItBeautiful} from "@app/lib/utils/beautifyUtils";
-import {notEmptyString} from "@app/lib/utils/stringUtils";
+import {urlBuildService} from "@app/lib/urlBuildService";
 
 
 const appLocalStorage = getAppLocalStorage();
@@ -61,61 +61,11 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
             globalSearchParams.forEach(function(v, k) {
                 const key = fromBase64_toString_new(k);
                 const value = fromBase64_toString_new(v);
-
                 addHeader(key, value);
-
-                //consoleLogValues("v=" + value + ",k=" + key);
             });
         }
 
     }, []);
-
-
-    function buildUrl(method: string, url: string, body: string, hdrs: HttpHeader[]): string {
-        const globalPath = path;
-        const globalParamsBase64 = params.paramsBase64;
-
-        const pathPart = globalPath.split("/");
-        if (globalParamsBase64) {
-            pathPart.splice(-globalParamsBase64.length);
-        }
-        pathPart.splice(-1);
-
-        pathPart.push(method);
-
-        if (!url) {
-            pathPart.push(toBase64_fromString_new(" "));
-        } else {
-            pathPart.push(toBase64_fromString_new(url));
-        }
-        if (!body) {
-            pathPart.push(toBase64_fromString_new(" "));
-        } else {
-            pathPart.push(toBase64_fromString_new(body));
-        }
-
-        const hObj: string[] = [];
-        for (let j = 0; j < hdrs.length; j++) {
-            const key = hdrs[j].key;
-            const value =  hdrs[j].value || " ";
-
-            if (notEmptyString(key)) {
-                hObj.push(`${toBase64_fromString_new(key)}=${toBase64_fromString_new(value)}`)
-            }
-        }
-
-
-        let MAIN_URL_PART: string;
-
-        if (hObj.length > 0) {
-            MAIN_URL_PART = `${pathPart.join("/")}?${hObj.join("&")}`;
-        } else {
-            MAIN_URL_PART = pathPart.join("/");
-        }
-
-        return MAIN_URL_PART;
-    }
-
 
 
 
@@ -161,21 +111,23 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         setRequestType(newValue);
 
         router.push(
-            buildUrl(newValue, requestUrl, requestBody, headers)
+            urlBuildService.buildUrl_fromClient(path, params.paramsBase64, newValue, requestUrl, requestBody, headers)
         );
     }
 
     function handleLeave() {
         router.push(
-            buildUrl(requestType, requestUrl, requestBody, headers)
+            urlBuildService.buildUrl_fromClient(path, params.paramsBase64, requestType, requestUrl, requestBody, headers)
         )
     }
 
 
-    function collectDataForSave() {
-        const res = {
-            rt: requestType,
+    function collectDataForSave(): HistoryPayload {
+        const res: HistoryPayload = {
+            method: params.method,
+            paramsBase64: params.paramsBase64,
             url: requestUrl,
+            headers,
             body: requestBody
         };
 
@@ -184,7 +136,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
 
 
     async function runQuery() {
-        appLocalStorage.addToHistory(RECORD_TYPE.REST, "test", collectDataForSave());
+        appLocalStorage.addToHistory(collectDataForSave(), HistoryRecordType.REST, authProps.userId ?? "");
 
         const res = await doRestRequest(requestType, requestUrl, requestBody, "application/json", []);
         consoleLogValue(res);

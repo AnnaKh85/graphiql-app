@@ -8,6 +8,7 @@ import Footer from "@app/lib/components/Footer/Footer";
 import AuthProvider from "@app/lib/auth/AuthProvider/AuthProvider";
 import {NextIntlClientProvider} from "next-intl";
 import {getMessages, getLocale} from "next-intl/server";
+import ErrorBoundary from "@app/lib/ErrorBoundary";
 
 
 export const metadata: Metadata = {

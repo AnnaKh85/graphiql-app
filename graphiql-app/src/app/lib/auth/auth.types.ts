@@ -11,7 +11,13 @@ export function getDefaultAutProps(): AuthProps {
         email: null
     };
 }
-
+export function getDefaultAutProps_authenticated(): AuthProps {
+    return {
+        isAuth: true,
+        userId: "1@2.ru",
+        email: "1@2.ru"
+    };
+}
 
 
 
