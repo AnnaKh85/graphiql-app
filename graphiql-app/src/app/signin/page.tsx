@@ -47,7 +47,7 @@ export default function SignIn() {
     return (
         <div className={"card"} style={{"width": "31rem"}}>
             <div className={"card-body"}>
-                <h5 className={"card-title"}>{t("head")}</h5>
+                <h5 className={"card-title"}>{t("head")} 1@2.ru / 123123</h5>
                 <form>
                     <div className={"mb-3"}>
                         <label htmlFor="inputEmail" className={"form-label"}>{t("email")}</label>
