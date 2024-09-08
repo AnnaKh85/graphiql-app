@@ -8,11 +8,13 @@ import {HistoryLocalStorageRecord, HistorySavedItem} from "@app/lib/types/types"
 import {getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
 import Link from "next/link";
 import {urlBuildService} from "@app/lib/urlBuildService";
+import {useTranslations} from "next-intl";
 
 export default function HistoryPage() {
     const router = useRouter();
     const path = usePathname();
     const {authProps} = useContext(AUTH_CONTEXT);
+    const t = useTranslations("HISTORY");
 
     const [histItems, setHistItems] = useState<HistorySavedItem[]>([]);
 
@@ -35,6 +37,11 @@ export default function HistoryPage() {
         setHistItems(list);
     }
 
+    function checkHistory(): boolean {
+        const list: HistorySavedItem[] = getAppLocalStorage().getHistory(authProps.userId ?? "");
+        return list && list.length > 0;
+    }
+
     function renderHistory(): ReactNode {
         return histItems.map(function(item) {
             if (! item.payload) return <></>;
@@ -53,34 +60,42 @@ export default function HistoryPage() {
         });
     }
 
+    function renderBody(): ReactNode {
+        if (checkHistory()) {
+            return <>
+                <table className={"table table-bordered"}>
+                    <thead>
+                    <tr>
+                        <th>{t("column_time")}<i className="bi bi-arrow-down ms-1"></i></th>
+                        <th>{t("column_client")}</th>
+                        <th>{t("column_method")}</th>
+                        <th>{t("column_url")}</th>
+                        <th>{t("column_goto")}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {renderHistory()}
+                    </tbody>
+                </table>
+            </>;
+        } else {
+            return <h4>{t("no_history")}</h4>
+        }
+    }
+
 
     return <>
         <div className={"card min-vw-90"}>
             <div className={"card-body"}>
                 <h6 className={"card-title"}>
-                    History Requests
+                    {t("title")}
                     <button className={"btn btn-sm btn-outline-secondary ms-1"} onClick={loadData}><i className="bi bi-repeat"></i></button>
                 </h6>
 
                 <div className={"container-fluid"}>
                     <div className={"row"}>
                         <div className={"col"}>
-
-                            <table className={"table table-bordered"}>
-                                <thead>
-                                <tr>
-                                    <th>Time<i className="bi bi-arrow-down ms-1"></i></th>
-                                    <th>Client</th>
-                                    <th>Method</th>
-                                    <th>URL</th>
-                                    <th>Goto</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {renderHistory()}
-                                </tbody>
-                            </table>
-
+                            {renderBody()}
                         </div>
                     </div>
                 </div>

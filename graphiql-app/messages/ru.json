@@ -1,17 +1,15 @@
 {
     "HEADER": {
-        "welcome": "Добро пожаловать",
-        "signupButton": "Регистрация",
-        "signinButton": "Вход"
+        "btn_signup": "Регистрация",
+        "btn_signin": "Вход",
+        "btn_logout": "Выход"
     },
     "FOOTER": {
         "author": "Автор",
         "project": "Проект"
     },
     "CHOOSE": {
-        "History": "История",
-        "REST_Client": "REST клиент",
-        "GraphiQL_Client": "GraphiQL клиент"
+        "welcome": "Добро пожаловать"
     },
     "SIGNIN": {
         "head": "Вход в программу",
@@ -31,6 +29,39 @@
     },
     "NOT_FOUND": {
         "text": "Страница не найдена (404)"
+    },
+    "REST_CLIENT": {
+        "title": "REST клиент",
+        "method": "Метод",
+        "ep_url": "Вызываемый URL",
+        "headers": "Заголовки",
+        "column_headers_del": "Удал",
+        "column_headers_key": "Ключ",
+        "column_headers_value": "Значение",
+        "body": "Тело",
+        "btn_execute": "Выполнить",
+        "btn_clean": "Очистить",
+        "ep_query_params": "Параметры запроса",
+        "column_qp_del": "Удал",
+        "column_qp_key": "Ключ",
+        "column_qp_value": "Значение"
+    },
+    "GRAPHIQL_CLIENT": {
+        "title": "GraphiQL клиент"
+    },
+    "HISTORY": {
+        "title": "Иcтория",
+        "no_history": "Не найдено ни одного сформированного запроса. История пуста.<br>Переход:",
+        "column_time": "Время",
+        "column_client": "Клиент",
+        "column_method": "Метод",
+        "column_url": "URL",
+        "column_goto": "Перейти"
+    },
+    "RESPONSE": {
+        "title": "Ответ",
+        "status": "Статус",
+        "body": "Тело"
     }
 }
 

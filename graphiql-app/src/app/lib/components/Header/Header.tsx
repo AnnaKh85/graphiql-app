@@ -67,12 +67,12 @@ export default function Header(): React.ReactNode {
                     <>
                     <Link href={"/signin"}>
                         <button className={"btn btn-outline-secondary btn-rss me-2"} type="button">
-                            {t('signinButton')}
+                            {t('btn_signin')}
                         </button>
                     </Link>
                     <Link href={"/signup"}>
                         <button className={"btn btn-outline-secondary btn-rss me-2"} type="button">
-                            {t('signupButton')}
+                            {t('btn_signup')}
                         </button>
                     </Link>
                     </>
@@ -80,7 +80,7 @@ export default function Header(): React.ReactNode {
                 {
                     authProps.isAuth &&
                     <button className={"btn btn-outline-secondary btn-rss me-2"} type="button" onClick={handleLogout}>
-                        Выход
+                        {t("btn_logout")}
                         &nbsp;
                         <i className="bi bi-door-open"></i>
                     </button>

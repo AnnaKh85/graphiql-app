@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, {useContext} from "react";
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
@@ -10,7 +10,9 @@ export default function ChooseClientPage() {
     const router = useRouter();
     const {authProps} = useContext(AUTH_CONTEXT);
     const t = useTranslations("CHOOSE");
-    const t2 = useTranslations("HEADER");
+    const tRest = useTranslations("REST_CLIENT");
+    const tGr = useTranslations("GRAPHIQL_CLIENT");
+    const tHist = useTranslations("HISTORY");
 
 
     React.useEffect(function() {
@@ -25,7 +27,7 @@ export default function ChooseClientPage() {
             <div className={"row"}>
                 <div className={"col"}>
                     <div className={"position-relative m-2"}>
-                        <label className={"form-label position-relative start-50 translate-middle-x"}>{t2("welcome")}, [<span style={{"fontWeight": "bold"}}>{authProps.email}</span>]</label>
+                        <label className={"form-label position-relative start-50 translate-middle-x"}>{t("welcome")}, [<span style={{"fontWeight": "bold"}}>{authProps.email}</span>]</label>
                     </div>
                 </div>
             </div>
@@ -34,13 +36,13 @@ export default function ChooseClientPage() {
                 <div className={"col"}>
                     <ul className={"list-group list-group-horizontal"}>
                         <li className={"list-group-item"}>
-                            <Link href={"/restfulClient/GET"}>{t("REST_Client")}</Link>
+                            <Link href={"/restfulClient/GET"}>{tRest("title")}</Link>
                         </li>
                         <li className={"list-group-item"}>
-                            <Link href={"/graphiQlClient"}>{t("GraphiQL_Client")}</Link>
+                            <Link href={"/graphiQlClient"}>{tGr("title")}</Link>
                         </li>
                         <li className={"list-group-item"}>
-                            <Link href={"/history"}>{t('History')}</Link>
+                            <Link href={"/history"}>{tHist('title')}</Link>
                         </li>
                     </ul>
                 </div>

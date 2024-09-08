@@ -1,17 +1,15 @@
 {
     "HEADER": {
-        "welcome": "Welcome",
-        "signupButton": "Sign Up",
-        "signinButton": "Sign In"
+        "btn_signup": "Sign Up",
+        "btn_signin": "Sign In",
+        "btn_logout": "Logout"
     },
     "FOOTER": {
         "author": "Author",
         "project": "Project"
     },
     "CHOOSE": {
-        "History": "History",
-        "REST_Client": "REST Client",
-        "GraphiQL_Client": "GraphiQL Client"
+        "welcome": "Welcome"
     },
     "SIGNIN": {
         "head": "Enter to program",
@@ -31,6 +29,39 @@
     },
     "NOT_FOUND": {
         "text": "Not found (404)"
+    },
+    "REST_CLIENT": {
+        "title": "REST Client",
+        "method": "Method",
+        "ep_url": "Endpoint URL",
+        "headers": "Headers",
+        "column_headers_del": "Del",
+        "column_headers_key": "Key",
+        "column_headers_value": "Value",
+        "body": "Body",
+        "btn_execute": "Run",
+        "btn_clean": "Clear",
+        "ep_query_params": "Query parameters",
+        "column_qp_del": "Del",
+        "column_qp_key": "Key",
+        "column_qp_value": "Value"
+    },
+    "GRAPHIQL_CLIENT": {
+        "title": "GraphiQL Client"
+    },
+    "HISTORY": {
+        "title": "History",
+        "no_history": "You haven't executed any requests. It's empty here. Try:",
+        "column_time": "Time",
+        "column_client": "Client",
+        "column_method": "Method",
+        "column_url": "URL",
+        "column_goto": "Goto"
+    },
+    "RESPONSE": {
+        "title": "Response",
+        "status": "Status",
+        "body": "Body"
     }
 }
 
