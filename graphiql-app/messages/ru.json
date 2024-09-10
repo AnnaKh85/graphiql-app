@@ -25,7 +25,8 @@
     "BUTTONS": {
         "cancel": "Отмена",
         "enter": "Вход",
-        "registration": "Регистрация"
+        "registration": "Регистрация",
+        "save": "Сохранить"
     },
     "NOT_FOUND": {
         "text": "Страница не найдена (404)"
@@ -35,6 +36,8 @@
         "method": "Метод",
         "ep_url": "Вызываемый URL",
         "headers": "Заголовки",
+        "header_editor_title": "Редактор заголовков",
+        "headers_of_cnt": "Заголовков",
         "column_headers_del": "Удал",
         "column_headers_key": "Ключ",
         "column_headers_value": "Значение",
@@ -42,6 +45,8 @@
         "btn_execute": "Выполнить",
         "btn_clean": "Очистить",
         "ep_query_params": "Параметры запроса",
+        "ep_query_params_editor_title": "Редактор параметров запроса",
+        "ep_query_params_of_cnt": "Параметров",
         "column_qp_del": "Удал",
         "column_qp_key": "Ключ",
         "column_qp_value": "Значение"

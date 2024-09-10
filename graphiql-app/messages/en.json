@@ -25,7 +25,8 @@
     "BUTTONS": {
         "cancel": "Cancel",
         "enter": "Enter",
-        "registration": "Registration"
+        "registration": "Registration",
+        "save": "Save"
     },
     "NOT_FOUND": {
         "text": "Not found (404)"
@@ -35,6 +36,8 @@
         "method": "Method",
         "ep_url": "Endpoint URL",
         "headers": "Headers",
+        "header_editor_title": "Headers editor",
+        "headers_of_cnt": "Headers count",
         "column_headers_del": "Del",
         "column_headers_key": "Key",
         "column_headers_value": "Value",
@@ -42,6 +45,8 @@
         "btn_execute": "Run",
         "btn_clean": "Clear",
         "ep_query_params": "Query parameters",
+        "ep_query_params_editor_title": "Query parameters editor",
+        "ep_query_params_of_cnt": "Query parameters count",
         "column_qp_del": "Del",
         "column_qp_key": "Key",
         "column_qp_value": "Value"

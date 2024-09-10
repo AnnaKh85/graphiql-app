@@ -7,7 +7,8 @@ type Props = {
     beautifyTrigger: number,
     value: string,
     onChange: (v: string) => void,
-    onBlur?: () => void
+    onBlur?: () => void,
+    disabled?: boolean
 }
 
 
@@ -39,6 +40,7 @@ export default function TextEditor(props: Props) {
                   onChange={e => handleChange(e.target.value)}
                   onBlur={props.onBlur}
                   style={{"minHeight": "150px"}}
+                  disabled={!!props.disabled}
         ></textarea>
     </>;
 }

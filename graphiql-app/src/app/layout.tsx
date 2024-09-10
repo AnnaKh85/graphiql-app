@@ -36,7 +36,7 @@ export default async function RootLayout({children, params}: Readonly<{children:
             <body className={"d-flex flex-column min-vh-100"}>
                 <AuthProvider>
                     <NextIntlClientProvider messages={messages}>
-                        <nav className={"navbar fixed-top p-0 navbar-rss"}>
+                        <nav className={"navbar fixed-top p-0 ms-2 me-2 navbar-rss"} style={{"borderRadius": "3px"}}>
                             <Header />
                         </nav>
 

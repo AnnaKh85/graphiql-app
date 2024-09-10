@@ -4,18 +4,19 @@ import TextEditor from "@app/lib/components/TextEditor/TextEditor";
 import Response from "@app/lib/components/Response/Response";
 import React, {useState, useContext} from "react";
 import {getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
-import {usePathname, useRouter, useSelectedLayoutSegment, useSearchParams} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
 import {doRestRequest} from "@app/lib/http/restSender";
-import {consoleLog, consoleLogValue, consoleLogValues} from "@app/lib/utils/consoleUtils";
+import {consoleLogValue} from "@app/lib/utils/consoleUtils";
 import {HttpHeader, HistoryRecordType, HistoryPayload, QueryParam} from "@app/lib/types/types";
-import {
-    toBase64_fromString_new, fromBase64_toString_new
-} from "@app/lib/utils/convert";
+import {fromBase64_toString_new} from "@app/lib/utils/convert";
 import {makeItBeautiful} from "@app/lib/utils/beautifyUtils";
 import {urlBuildService} from "@app/lib/urlBuildService";
 import {useTranslations} from "next-intl";
 import {HttpMethodSelector} from "@app/lib/components/HttpMethodSelector/HttpMethodSelector";
+import {EditHeadersModal} from "@app/lib/components/EditHeadersModal/EditHeadersModal";
+import {EditEqParamsModal} from "@app/lib/components/EditEqParamsModal/EditEqParamsModal";
+import {func} from "prop-types";
 
 
 const appLocalStorage = getAppLocalStorage();
@@ -36,6 +37,9 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
     const [requestType, setRequestType] = useState<string>(params.method);
     const [requestUrl, setRequestUrl] = useState<string>("https://jsonplaceholder.typicode.com/posts/1");
     const [requestBody, setRequestBody] = useState<string>("");
+
+    const [visibleEditHeadersModal, setVisibleEditHeadersModal] = useState<boolean>(false);
+    const [visibleEditEqParamsModal, setVisibleEditEqParamsModal] = useState<boolean>(false);
 
 
     React.useEffect(function() {
@@ -63,53 +67,40 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         }
 
         if (globalSearchParams && globalSearchParams.size > 0) {
+            let hTemp: HttpHeader[] = [];
             globalSearchParams.forEach(function(v, k) {
                 const key = fromBase64_toString_new(k);
                 const value = fromBase64_toString_new(v);
-                addHeader(key, value);
+                hTemp = addHeader(hTemp, key, value);
             });
+            setHeaders(hTemp);
         }
 
     }, []);
 
 
+    function saveHeaders(headers: HttpHeader[]) {
+        setHeaders(headers);
+        router.push(
+            urlBuildService.buildUrl_fromClient(path, params.paramsBase64, requestType, requestUrl, requestBody, headers)
+        )
+        closeEditHeadersModal();
+    }
 
-    function addHeader(key?: string, value?: string) {
+    function saveEpQueryParams(epQueryParams: QueryParam[]) {
+        setEpQueryParams(epQueryParams);
+        router.push(
+            urlBuildService.buildUrl_fromClient(path, params.paramsBase64, requestType, requestUrl, requestBody, headers)
+        )
+        closeEditEpQueryParamsModal();
+    }
+
+
+    function addHeader(arr: HttpHeader[], key?: string, value?: string): HttpHeader[] {
         let max = 0;
-        headers.forEach(v => max = v.seq > max ? v.seq : max);
-        let list = [...headers, {seq: max + 1, key: key || "", value: value || ""}]
-        setHeaders(list);
-    }
-
-    function delHeader(seq: number) {
-        let list = headers.filter(h => h.seq !== seq);
-        setHeaders(list);
-    }
-
-    function setHeaderKey(seq: number, k: string) {
-        let list: typeof headers = [];
-
-        headers.forEach(h => {
-            if (seq === h.seq) {
-                h.key = k;
-            }
-            list.push(h);
-        });
-
-        setHeaders(list);
-    }
-
-    function setHeaderValue(seq: number, v: string) {
-        let list: typeof headers = [];
-
-        headers.forEach(h => {
-            if (seq === h.seq) {
-                h.value = v;
-            }
-            list.push(h);
-        });
-
-        setHeaders(list);
+        arr.forEach(v => max = v.seq > max ? v.seq : max);
+        let list = [...arr, {seq: max + 1, key: key || "", value: value || ""}]
+        return list;
     }
 
     function addEpQueryParam(key?: string, value?: string) {
@@ -119,36 +110,6 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         setEpQueryParams(list);
     }
 
-    function delEpQueryParam(seq: number) {
-        let list = epQueryParams.filter(h => h.seq !== seq);
-        setEpQueryParams(list);
-    }
-
-    function setEpQueryParamKey(seq: number, k: string) {
-        let list: typeof epQueryParams = [];
-
-        epQueryParams.forEach(h => {
-            if (seq === h.seq) {
-                h.key = k;
-            }
-            list.push(h);
-        });
-
-        setEpQueryParams(list);
-    }
-
-    function setEpQueryParamValue(seq: number, v: string) {
-        let list: typeof epQueryParams = [];
-
-        epQueryParams.forEach(h => {
-            if (seq === h.seq) {
-                h.value = v;
-            }
-            list.push(h);
-        });
-
-        setEpQueryParams(list);
-    }
 
 
     function handleChangeRequestType(newValue: string) {
@@ -165,10 +126,8 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         )
     }
 
-    function handleQpLeave() {
-        // router.push(
-        //     urlBuildService.buildUrl_fromClient(path, params.paramsBase64, requestType, requestUrl, requestBody, headers)
-        // )
+    function isBodyDisabled(): boolean {
+        return params.method === "GET";
     }
 
 
@@ -199,40 +158,33 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         });
     }
 
-    function renderHeaders(): React.ReactNode {
-        return headers.map((h, i) => {
-            return (
-                <tr key={h.seq + ":" + i}>
-                    <td style={{"textAlign": "center", "alignContent": "center"}}>
-                        <button className={"btn btn-sm btn-outline-secondary"} onClick={() => delHeader(h.seq)}><i className="bi bi-cart-x"></i></button>
-                    </td>
-                    <td>
-                        <input type="text" className={"form-control"} value={h.key} onChange={e => setHeaderKey(h.seq, e.target.value)} onBlur={handleLeave} />
-                    </td>
-                    <td>
-                        <input type="text" className={"form-control"} value={h.value} onChange={e => setHeaderValue(h.seq, e.target.value)} onBlur={handleLeave} />
-                    </td>
-                </tr>
-            );
-        });
+
+    function renderHeadersCount() {
+        return (
+            <strong><small>{t("headers_of_cnt")}: [{headers.length}]</small></strong>
+        );
     }
 
-    function renderQueryParams(): React.ReactNode {
-        return epQueryParams.map((h, i) => {
-            return (
-                <tr key={h.seq + ":" + i}>
-                    <td style={{"textAlign": "center", "alignContent": "center"}}>
-                        <button className={"btn btn-sm btn-outline-secondary"} onClick={() => delEpQueryParam(h.seq)}><i className="bi bi-cart-x"></i></button>
-                    </td>
-                    <td>
-                        <input type="text" className={"form-control"} value={h.key} onChange={e => setEpQueryParamKey(h.seq, e.target.value)} onBlur={handleQpLeave} />
-                    </td>
-                    <td>
-                        <input type="text" className={"form-control"} value={h.value} onChange={e => setEpQueryParamValue(h.seq, e.target.value)} onBlur={handleQpLeave} />
-                    </td>
-                </tr>
-            );
-        });
+    function renderEpQueryParamsCount() {
+        return (
+            <strong><small>{t("ep_query_params_of_cnt")}: [{epQueryParams.length}]</small></strong>
+        );
+    }
+
+
+    function openEditHeadersModal() {
+        setVisibleEditHeadersModal(curr => true);
+    }
+    function closeEditHeadersModal() {
+        setVisibleEditHeadersModal(curr => false);
+    }
+
+
+    function openEditEpQueryParamsModal() {
+        setVisibleEditEqParamsModal(curr => true);
+    }
+    function closeEditEpQueryParamsModal() {
+        setVisibleEditEqParamsModal(curr => false);
     }
 
 
@@ -258,71 +210,35 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                     </div>
 
                     <div className={"row"}>
-                        <div className={"col"}>
-                            <div className={"row"}>
-                                <div className={"col-auto"}>
-                                    <label className={"col-form-label"}>{t("headers")}:</label>
-                                </div>
-                                <div className={"col-auto"}>
-                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={(e) => addHeader()}>
-                                        <i className="bi bi-plus-circle"></i>
+                        <div className={"col-5"}>
+                            <label className={"col-form-label"}>{t("headers")}:</label>
+                            <div className={"input-group"}>
+                                <span className={"form-control"}>{renderHeadersCount()}</span>
+                                <div className={"input-group-text"}>
+                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={openEditHeadersModal}>
+                                        <i className="bi bi-card-checklist"></i>
                                     </button>
-                                </div>
-                            </div>
-
-                            <div className={"row"}>
-                                <div className={"col"}>
-                                    <table className={"table table-bordered table-rss"}>
-                                        <thead>
-                                        <tr>
-                                            <th style={{"width": "50px"}}>{t("column_headers_del")}</th>
-                                            <th>{t("column_headers_key")}</th>
-                                            <th>{t("column_headers_value")}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {renderHeaders()}
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div className={"row"}>
-                        <div className={"col"}>
-                            <div className={"row"}>
-                                <div className={"col-auto"}>
-                                    <label className={"col-form-label"}>{t("ep_query_params")}:</label>
-                                </div>
-                                <div className={"col-auto"}>
-                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={(e) => addEpQueryParam()}>
-                                        <i className="bi bi-plus-circle"></i>
+                        <div className={"col-5"}>
+                            <label className={"col-form-label"}>{t("ep_query_params")}:</label>
+                            <div className={"input-group"}>
+                                <span className={"form-control"}>{renderEpQueryParamsCount()}</span>
+                                <div className={"input-group-text"}>
+                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={openEditEpQueryParamsModal}>
+                                        <i className="bi bi-card-checklist"></i>
                                     </button>
-                                </div>
-                            </div>
-
-                            <div className={"row"}>
-                                <div className={"col"}>
-                                    <table className={"table table-bordered table-rss"}>
-                                        <thead>
-                                        <tr>
-                                            <th style={{"width": "50px"}}>{t("column_qp_del")}</th>
-                                            <th>{t("column_qp_key")}</th>
-                                            <th>{t("column_qp_value")}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {renderQueryParams()}
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
 
 
-                    <div className={"row"}>
+                    <div className={"row mt-2"}>
                         <div className={"col"}>
                             <div className={"row"}>
                                 <div className={"col-auto"}>
@@ -333,7 +249,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                                     </button>
                                 </div>
                                 <div className={"col"}>
-                                    <TextEditor beautifyTrigger={beautifyCnt} value={requestBody} onChange={v => setRequestBody(v)} onBlur={handleLeave} />
+                                    <TextEditor beautifyTrigger={beautifyCnt} value={requestBody} onChange={v => setRequestBody(v)} onBlur={handleLeave} disabled={isBodyDisabled()} />
                                 </div>
                             </div>
                         </div>
@@ -360,6 +276,21 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
             </div>
         </div>
 
+
+        {visibleEditHeadersModal &&
+            <EditHeadersModal
+                onOk={saveHeaders}
+                onCancel={closeEditHeadersModal}
+                headers={headers}
+            />
+        }
+        {visibleEditEqParamsModal &&
+            <EditEqParamsModal
+                onOk={saveEpQueryParams}
+                onCancel={closeEditEpQueryParamsModal}
+                epQueryParams={epQueryParams}
+            />
+        }
 
     </>;
 }

@@ -131,3 +131,11 @@ ul.validation-block-rss, p.validation-block-rss {
 .table-rss > tbody > * > * {
     padding: 2px !important;
 }
+
+.modal .modal-header {
+    background-color: #d5d5d5;
+}
+
+.modal .modal-footer {
+  background-color: #d5d5d5;
+}
