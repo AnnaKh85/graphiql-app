@@ -48,13 +48,14 @@ export default function HistoryPage() {
 
             const dt = new Date(item.ts);
 
-            const url = urlBuildService.buildUrl_fromHistory(item.type, item.payload.paramsBase64, item.payload.method, item.payload.url, item.payload.body, item.payload.headers);
+            const url = urlBuildService.buildUrl_fromHistory(item.type, item.payload.paramsBase64, item.payload.method, item.payload.url, item.payload.body ?? "", item.payload.headers);
 
             return <tr key={item.ts}>
                 <td>{dt.toLocaleString()}</td>
                 <td>{item.type}</td>
                 <td>{item.payload.method}</td>
                 <td>{item.payload.url}</td>
+                <td>{item.payload.response?.status}</td>
                 <td><Link href={url}>.....</Link></td>
             </tr>
         });
@@ -70,6 +71,7 @@ export default function HistoryPage() {
                         <th>{t("column_client")}</th>
                         <th>{t("column_method")}</th>
                         <th>{t("column_url")}</th>
+                        <th>{t("column_response_status")}</th>
                         <th>{t("column_goto")}</th>
                     </tr>
                     </thead>

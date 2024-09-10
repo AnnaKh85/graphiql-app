@@ -22,7 +22,11 @@ export type HistoryPayload = {
     paramsBase64: string[],
     url: string,
     headers: HttpHeader[],
-    body: string
+    body?: string,
+    response?: {
+        status: string,
+        text?: string
+    }
 }
 
 export type HistorySavedItem = {

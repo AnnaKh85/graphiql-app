@@ -1,23 +1,32 @@
+const isDebugEnabled = true;
+
+
+
 function consoleLog(text: string) {
-    console.log("1:" + text);
+    if (isDebugEnabled)
+        console.log("1:" + text);
 }
 
 function consoleLogError(text: string) {
-    console.error("1:" + text);
+    if (isDebugEnabled)
+        console.error("1:" + text);
 }
 
 
 
 function consoleLogValue(value: any) {
-    console.log(["2:", value]);
+    if (isDebugEnabled)
+        console.log(["2:", value]);
 }
 
 function consoleLogValues(...values: any[]) {
-    console.log(["2:", ...values]);
+    if (isDebugEnabled)
+        console.log(["2:", ...values]);
 }
 
 function consoleLogValuesError(...values: any[]) {
-    console.log(["2:", ...values]);
+    if (isDebugEnabled)
+        console.log(["2:", ...values]);
 }
 
 

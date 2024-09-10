@@ -1,7 +1,7 @@
 'use client';
 
 import TextEditor from "@app/lib/components/TextEditor/TextEditor";
-import Response from "@app/lib/components/Response/Response";
+import {Response} from "@app/lib/components/Response/Response";
 import React, {useState, useContext} from "react";
 import {getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
@@ -16,7 +16,7 @@ import {useTranslations} from "next-intl";
 import {HttpMethodSelector} from "@app/lib/components/HttpMethodSelector/HttpMethodSelector";
 import {EditHeadersModal} from "@app/lib/components/EditHeadersModal/EditHeadersModal";
 import {EditEqParamsModal} from "@app/lib/components/EditEqParamsModal/EditEqParamsModal";
-import {func} from "prop-types";
+import {PROGRESS_CONTEXT} from "@app/lib/components/ProgressProvider/ProgressProvider";
 
 
 const appLocalStorage = getAppLocalStorage();
@@ -27,6 +27,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
     const path = usePathname();
     const queryParams = useSearchParams();
     const {authProps} = useContext(AUTH_CONTEXT);
+    const {prog, setInProgress} = useContext(PROGRESS_CONTEXT);
     const t = useTranslations("REST_CLIENT");
     const tResp = useTranslations("RESPONSE");
 
@@ -37,6 +38,9 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
     const [requestType, setRequestType] = useState<string>(params.method);
     const [requestUrl, setRequestUrl] = useState<string>("https://jsonplaceholder.typicode.com/posts/1");
     const [requestBody, setRequestBody] = useState<string>("");
+
+    const [responseStatus, setResponseStatus] = useState<string | undefined>(undefined);
+    const [responseText, setResponseText] = useState<string | undefined>(undefined);
 
     const [visibleEditHeadersModal, setVisibleEditHeadersModal] = useState<boolean>(false);
     const [visibleEditEqParamsModal, setVisibleEditEqParamsModal] = useState<boolean>(false);
@@ -114,6 +118,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
 
     function handleChangeRequestType(newValue: string) {
         setRequestType(newValue);
+        setRequestBody("");
 
         router.push(
             urlBuildService.buildUrl_fromClient(path, params.paramsBase64, newValue, requestUrl, requestBody, headers)
@@ -127,7 +132,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
     }
 
     function isBodyDisabled(): boolean {
-        return params.method === "GET";
+        return params.method === "GET" || params.method === "HEAD";
     }
 
 
@@ -137,7 +142,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
             paramsBase64: params.paramsBase64,
             url: requestUrl,
             headers,
-            body: requestBody
+            body: isBodyDisabled()? undefined : requestBody
         };
 
         return res;
@@ -145,10 +150,51 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
 
 
     async function runQuery() {
-        appLocalStorage.addToHistory(collectDataForSave(), HistoryRecordType.REST, authProps.userId ?? "");
+        const data: HistoryPayload = collectDataForSave();
 
-        const res = await doRestRequest(requestType, requestUrl, requestBody, "application/json", []);
-        consoleLogValue(res);
+
+        setInProgress(true);
+
+        try {
+            const res: string[] = await doRestRequest(
+                data.method,
+                data.url,
+                requestBody,
+                headers,
+                epQueryParams
+            );
+
+            let tempResponseStatus: string = res[1];
+            let tempResponseText: string | undefined;
+
+            if (res[0] === "true") {
+                let a = JSON.stringify(res[2]);
+                tempResponseText = a;
+            } else {
+                tempResponseText = undefined;
+
+            }
+
+            setResponseStatus(tempResponseStatus);
+            setResponseText(tempResponseText);
+
+
+            data.response = {
+                status: tempResponseStatus,
+                text: tempResponseText
+            };
+
+            appLocalStorage.addToHistory(data, HistoryRecordType.REST, authProps.userId ?? "");
+
+            setInProgress(false);
+
+            consoleLogValue(res);
+        } catch(e) {
+            appLocalStorage.addToHistory(data, HistoryRecordType.REST, authProps.userId ?? "");
+            setInProgress(false);
+            consoleLogValue(e);
+        }
+
     }
 
 
@@ -198,13 +244,13 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                         <div className={"col-3"}>
                             <div className="mb-1">
                                 <label className={"form-label"}>{t("method")}</label>
-                                <HttpMethodSelector onChange={handleChangeRequestType} defaultValue={requestType} />
+                                <HttpMethodSelector onChange={handleChangeRequestType} defaultValue={requestType} disabled={prog} />
                             </div>
                         </div>
                         <div className={"col-9"}>
                             <div className="mb-1">
                                 <label className={"form-label"}>{t("ep_url")}</label>
-                                <input className={"form-control"} type="url" value={requestUrl} onChange={e => setRequestUrl(e.target.value)} onBlur={handleLeave} />
+                                <input className={"form-control"} type="url" value={requestUrl} onChange={e => setRequestUrl(e.target.value)} onBlur={handleLeave} disabled={prog}/>
                             </div>
                         </div>
                     </div>
@@ -215,7 +261,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                             <div className={"input-group"}>
                                 <span className={"form-control"}>{renderHeadersCount()}</span>
                                 <div className={"input-group-text"}>
-                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={openEditHeadersModal}>
+                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={openEditHeadersModal} disabled={prog}>
                                         <i className="bi bi-card-checklist"></i>
                                     </button>
                                 </div>
@@ -229,7 +275,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                             <div className={"input-group"}>
                                 <span className={"form-control"}>{renderEpQueryParamsCount()}</span>
                                 <div className={"input-group-text"}>
-                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={openEditEpQueryParamsModal}>
+                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={openEditEpQueryParamsModal} disabled={prog}>
                                         <i className="bi bi-card-checklist"></i>
                                     </button>
                                 </div>
@@ -249,7 +295,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                                     </button>
                                 </div>
                                 <div className={"col"}>
-                                    <TextEditor beautifyTrigger={beautifyCnt} value={requestBody} onChange={v => setRequestBody(v)} onBlur={handleLeave} disabled={isBodyDisabled()} />
+                                    <TextEditor beautifyTrigger={beautifyCnt} value={requestBody} onChange={v => setRequestBody(v)} onBlur={handleLeave} disabled={isBodyDisabled() || prog} />
                                 </div>
                             </div>
                         </div>
@@ -257,10 +303,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
 
                     <div className={"row mt-2"}>
                         <div className={"col-auto pe-1"}>
-                            <button type="button" className={"btn btn-rss btn-outline-secondary"} onClick={runQuery}>{t("btn_execute")}</button>
-                        </div>
-                        <div className={"col-auto ps-0"}>
-                            <button type="button" className={"btn btn-rss btn-outline-secondary"}>{t("btn_clean")}</button>
+                            <button type="button" className={"btn btn-rss btn-outline-secondary"} onClick={runQuery} disabled={prog}>{t("btn_execute")}</button>
                         </div>
                     </div>
                 </div>
@@ -272,7 +315,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         <div className={"card min-vw-90 mt-2"}>
             <div className={"card-body"}>
                 <h6 className={"card-title"}>{tResp("title")}</h6>
-                <Response />
+                <Response status={responseStatus} text={responseText} />
             </div>
         </div>
 

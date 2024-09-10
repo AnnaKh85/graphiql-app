@@ -8,7 +8,7 @@ import Footer from "@app/lib/components/Footer/Footer";
 import AuthProvider from "@app/lib/auth/AuthProvider/AuthProvider";
 import {NextIntlClientProvider} from "next-intl";
 import {getMessages, getLocale} from "next-intl/server";
-import ErrorBoundary from "@app/lib/ErrorBoundary";
+import {ProgressProvider} from "@app/lib/components/ProgressProvider/ProgressProvider";
 
 
 export const metadata: Metadata = {
@@ -34,23 +34,25 @@ export default async function RootLayout({children, params}: Readonly<{children:
                         crossOrigin="anonymous" async></script>
             </head>
             <body className={"d-flex flex-column min-vh-100"}>
-                <AuthProvider>
-                    <NextIntlClientProvider messages={messages}>
-                        <nav className={"navbar fixed-top p-0 ms-2 me-2 navbar-rss"} style={{"borderRadius": "3px"}}>
-                            <Header />
-                        </nav>
+                <NextIntlClientProvider messages={messages}>
+                    <ProgressProvider>
+                        <AuthProvider>
+                            <nav className={"navbar fixed-top p-0 ms-2 me-2 navbar-rss"} style={{"borderRadius": "3px"}}>
+                                <Header />
+                            </nav>
 
-                        <div className={"position-relative min-vw-100"} >
-                            <div className={"position-absolute start-50 translate-middle-x"} style={{"paddingTop": "80px", "paddingBottom": "60px"}}>
-                                {children}
+                            <div className={"position-relative min-vw-100"} >
+                                <div className={"position-absolute start-50 translate-middle-x"} style={{"paddingTop": "80px", "paddingBottom": "60px"}}>
+                                    {children}
+                                </div>
                             </div>
-                        </div>
 
-                        <footer className={"mt-auto py-1 w-100 position-absolute bottom-0 start-50 translate-middle-x"}>
-                            <Footer />
-                        </footer>
-                    </NextIntlClientProvider>
-                </AuthProvider>
+                            <footer className={"mt-auto py-1 w-100 position-absolute bottom-0 start-50 translate-middle-x"}>
+                                <Footer />
+                            </footer>
+                        </AuthProvider>
+                    </ProgressProvider>
+                </NextIntlClientProvider>
             </body>
         </html>
     );

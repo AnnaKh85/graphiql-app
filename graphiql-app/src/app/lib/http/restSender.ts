@@ -1,18 +1,77 @@
 'use server';
 
-import {HttpHeader} from "@app/lib/types/types";
-
-export async function doRestRequest(method: string, url: string, body: string, contentType: string, headers: HttpHeader[]) {
-    // const urlBase64 = toBase64(url);
-    // const bodyBase64 = toBase64(body);
-    // const headersBase64 = "";// toBase64(body);
-    // const contentTypeBase64 = toBase64(contentType);
-    //
-    // if ("GET" === method) {
-    //     let data = await fetch(`/GET/${urlBase64}`);
-    // } else if ("POST" === method) {
-    //     let data = await fetch(`/POST/${urlBase64}?body=${bodyBase64}&content-type=${contentTypeBase64}`);
-    // }
+import {HttpHeader, QueryParam, HttpMethods} from "@app/lib/types/types";
+import {notEmptyString, safeString} from "@app/lib/utils/stringUtils";
 
 
+// export async function getServerSideProps({params, req, res, query, preview, previewData, resolvedUrl, locale, locales, defaultLocale}) {
+//     consoleLogValues('Logging : '+res);
+//
+//
+//     const data = await fetch('https://jsonplaceholder.typicode.com/users');
+//     const users = await data.json();
+//     return { props: { users } }
+// }
+
+
+
+
+
+
+
+
+
+export async function doRestRequest(method: string, url: string, body?: string, headers?: HttpHeader[], queryParams?: QueryParam[]) {
+    const h: {[key: string]: string} = {};
+    if (headers && headers.length) {
+        headers.forEach(function(v) {
+            if (notEmptyString(v.key)) {
+                h[safeString(v.key)] = safeString(v.value);
+            }
+        });
+    }
+
+
+    let res;
+
+    if (HttpMethods.GET === method || HttpMethods.HEAD === method) {
+
+        res = await fetch(
+            url,
+            {
+                method,
+                headers: h,
+                cache: "no-cache"
+            }
+        );
+
+    } else {
+
+        res = await fetch(
+            url,
+            {
+                method,
+                body,
+                headers: h,
+                cache: "no-cache"
+            }
+        );
+
+    }
+
+    const resultFromServer = [];
+
+    if (res.ok) {
+        resultFromServer.push("true");
+        resultFromServer.push(res.status);
+        resultFromServer.push(await res.json());
+    } else {
+        resultFromServer.push("false");
+        resultFromServer.push(res.status);
+        resultFromServer.push("");
+    }
+
+
+    return resultFromServer;
 }
+

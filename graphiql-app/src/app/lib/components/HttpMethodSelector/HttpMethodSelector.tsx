@@ -4,7 +4,8 @@ import {HttpMethodsFunc} from "@app/lib/types/types";
 
 export type Props = {
     defaultValue?: string,
-    onChange: (value: string) => void
+    onChange: (value: string) => void,
+    disabled?: boolean
 }
 
 

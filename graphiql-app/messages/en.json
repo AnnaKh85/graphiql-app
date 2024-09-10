@@ -28,6 +28,9 @@
         "registration": "Registration",
         "save": "Save"
     },
+    "PROGRESS": {
+        "value": "Loading"
+    },
     "NOT_FOUND": {
         "text": "Not found (404)"
     },
@@ -61,6 +64,7 @@
         "column_client": "Client",
         "column_method": "Method",
         "column_url": "URL",
+        "column_response_status": "Resp.Status",
         "column_goto": "Goto"
     },
     "RESPONSE": {

@@ -3,9 +3,32 @@
 
 import TextEditor from "@app/lib/components/TextEditor/TextEditor";
 import {useTranslations} from "next-intl";
+import {FC, useState, useEffect} from "react";
+import {func} from "prop-types";
+import {makeItBeautiful} from "@app/lib/utils/beautifyUtils";
 
-export default function Response() {
+
+type Props = {
+    status?: string,
+    text?: string
+}
+
+
+
+export const Response: FC<Props> = (props) => {
     const t = useTranslations("RESPONSE");
+
+    const [text, setText] = useState<string>(getBeautifulText(props.text));
+
+    useEffect(function() {
+        setText(getBeautifulText(props.text));
+    }, [props.text]);
+
+
+
+    function getBeautifulText(s?: string): string {
+        return makeItBeautiful(s ?? "");
+    }
 
 
     return <div className={"container-fluid"}>
@@ -15,7 +38,7 @@ export default function Response() {
                 <label className={"col-form-label"}>{t("status")}:</label>
             </div>
             <div className={"col"}>
-                <span className={"pl-2"}>Текст</span>
+                <span className={"pl-2"}>{props.status ?? ""}</span>
             </div>
 
         </div>
@@ -25,7 +48,7 @@ export default function Response() {
                 <label className={"col-form-label"}>{t("body")}:</label>
             </div>
             <div className={"col"}>
-                <TextEditor beautifyTrigger={0} value={""} onChange={()=>{}} />
+                <TextEditor beautifyTrigger={0} value={text} onChange={()=>{}} disabled={true} />
             </div>
 
         </div>

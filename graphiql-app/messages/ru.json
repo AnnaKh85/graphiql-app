@@ -28,6 +28,9 @@
         "registration": "Регистрация",
         "save": "Сохранить"
     },
+    "PROGRESS": {
+        "value": "Загрузка"
+    },
     "NOT_FOUND": {
         "text": "Страница не найдена (404)"
     },
@@ -61,6 +64,7 @@
         "column_client": "Клиент",
         "column_method": "Метод",
         "column_url": "URL",
+        "column_response_status": "Стат.ответа",
         "column_goto": "Перейти"
     },
     "RESPONSE": {
