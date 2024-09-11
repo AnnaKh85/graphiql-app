@@ -30,7 +30,15 @@
     },
     "types": ["vitest/globals"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src", "tests"],
-  "exclude": ["node_modules"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src",
+    "tests",
+    "node_modules/@types/node/globals.d.ts"
+  ],
+  "exclude": ["node_modules"]
 
 }
