@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
 import {IntlProvider} from 'next-intl';
-import {createMockRouter} from 'next-router-mock';
+import {createRouter} from 'next-router-mock';
 import ChooseClientPage from '../src/app/choose/page';
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
 
@@ -19,7 +19,7 @@ const messages = {
 
 describe('ChooseClientPage', () => {
     it('renders the welcome message and links', () => {
-        const router = createMockRouter({});
+        const router = createRouter({});
 
         render(
             <AUTH_CONTEXT.Provider value={{authProps: mockAuthProps}}>
