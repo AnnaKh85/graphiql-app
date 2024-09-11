@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
+import * as path from "path";
 
 
 export default defineConfig({
@@ -9,11 +10,16 @@ export default defineConfig({
     setupFiles: './vitest.setup.ts',
     globals: true,
     include: ['tests/**/*.test.tsx'],
+    coverage: {
+      provider: 'istanbul'
+    },
     alias: {
-      "@/*":  new URL("/src/", import.meta.url).pathname,
-      "@app/": new URL("./src/app/", import.meta.url).pathname,
-      "@assets/": new URL("./src/assets/", import.meta.url).pathname,
-      "@public": new URL("./public", import.meta.url).pathname
+      // "@":  new URL("./src", import.meta.url).pathname,
+      // "@app": new URL("./src/app", import.meta.url).pathname,
+      // "@assets/": new URL("./src/assets/", import.meta.url).pathname,
+      // "@public": new URL("./public", import.meta.url).pathname
+      '@': path.resolve(__dirname, './src'),
+      '@app': path.resolve(__dirname, './src/app'),
     }
   },
 });
