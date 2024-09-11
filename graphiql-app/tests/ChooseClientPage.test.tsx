@@ -1,32 +1,56 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
-import {IntlProvider} from 'next-intl';
-import {createMockRouter} from 'next-router-mock';
+import {NextIntlClientProvider} from 'next-intl';
 import ChooseClientPage from '../src/app/choose/page';
-import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
+import AuthProvider from "@app/lib/auth/AuthProvider/AuthProvider";
+import {AuthProps} from "@app/lib/auth/auth.types";
+import {loadMessagesFile_en} from "./test_utils";
 
-const mockAuthProps = {
+
+const mockAuthProps: AuthProps = {
     isAuth: true,
+    userId: 'test@example.com',
     email: 'test@example.com',
 };
 
-const messages = {
+
+//Зкомментрровано, потому что решили грущзить из файла через библиотеку test_utils
+// @deprecated
+const messagesMock = {
     CHOOSE: {welcome: 'Welcome'},
     REST_CLIENT: {title: 'REST Client'},
     GRAPHIQL_CLIENT: {title: 'GraphiQL Client'},
     HISTORY: {title: 'History'},
 };
 
+
+vi.mock("next/navigation", async () => {
+    const actual = await vi.importActual('next/navigation');
+    return {
+        ...actual,
+        useRouter: vi.fn(() => ({
+            push: vi.fn(),
+            replace: vi.fn(),
+        })),
+        useSearchParams: vi.fn(() => ({
+            // get: vi.fn(),
+        })),
+        usePathname: vi.fn(),
+    };
+});
+
+
 describe('ChooseClientPage', () => {
-    it('renders the welcome message and links', () => {
-        const router = createMockRouter({});
+    it('renders the welcome message and links', async (props) => {
+        const messages = await loadMessagesFile_en();
+        // const messages = await loadMessagesFile_ru();
 
         render(
-            <AUTH_CONTEXT.Provider value={{authProps: mockAuthProps}}>
-                <IntlProvider messages={messages} locale="en">
+            <NextIntlClientProvider messages={messages} locale={"en"}>
+                <AuthProvider>
                     <ChooseClientPage/>
-                </IntlProvider>
-            </AUTH_CONTEXT.Provider>
+                </AuthProvider>
+            </NextIntlClientProvider>
         );
 
         expect(screen.getByText(/Welcome/)).toBeInTheDocument();
@@ -35,3 +59,6 @@ describe('ChooseClientPage', () => {
         expect(screen.getByText('History')).toBeInTheDocument();
     });
 });
+
+
+
