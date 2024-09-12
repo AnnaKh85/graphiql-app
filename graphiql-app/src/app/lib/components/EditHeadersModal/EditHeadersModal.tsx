@@ -61,7 +61,7 @@ export const EditHeadersModal: FC<Props> = (props) => {
             return (
                 <tr key={h.seq + ":" + i}>
                     <td style={{"textAlign": "center", "alignContent": "center"}}>
-                        <button className={"btn btn-sm btn-outline-secondary"} onClick={() => delHeader(h.seq)}><i className="bi bi-cart-x"></i></button>
+                        <button title="-" className={"btn btn-sm btn-outline-secondary"} onClick={() => delHeader(h.seq)}><i className="bi bi-cart-x"></i></button>
                     </td>
                     <td>
                         <input type="text" className={"form-control"} value={h.key} onChange={e => setHeaderKey(h.seq, e.target.value)} />
@@ -96,7 +96,7 @@ export const EditHeadersModal: FC<Props> = (props) => {
                                                     <label className={"col-form-label"}>{t("headers")}:</label>
                                                 </div>
                                                 <div className={"col-auto"}>
-                                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={(e) => addHeader()}>
+                                                    <button title="+" className={"btn btn-sm btn-outline-secondary"} onClick={(e) => addHeader()}>
                                                         <i className="bi bi-plus-circle"></i>
                                                     </button>
                                                 </div>

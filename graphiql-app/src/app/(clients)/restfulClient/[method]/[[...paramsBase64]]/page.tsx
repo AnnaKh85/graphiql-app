@@ -107,13 +107,6 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         return list;
     }
 
-    function addEpQueryParam(key?: string, value?: string) {
-        let max = 0;
-        epQueryParams.forEach(v => max = v.seq > max ? v.seq : max);
-        let list = [...epQueryParams, {seq: max + 1, key: key || "", value: value || ""}]
-        setEpQueryParams(list);
-    }
-
 
 
     function handleChangeRequestType(newValue: string) {
@@ -195,13 +188,6 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
             consoleLogValue(e);
         }
 
-    }
-
-
-    function beautyClick() {
-        setBeautifyCnt(prevCnt => {
-            return prevCnt + 1;
-        });
     }
 
 
@@ -289,10 +275,6 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                             <div className={"row"}>
                                 <div className={"col-auto"}>
                                     <label className={"col-form-label"}>{t("body")}:</label>
-                                    <br/>
-                                    <button className={"btn btn-sm btn-outline-secondary"} title="Beautify" onClick={beautyClick} style={{"display":"none"}}>
-                                        <i className="bi bi-flower1"></i>
-                                    </button>
                                 </div>
                                 <div className={"col"}>
                                     <TextEditor beautifyTrigger={beautifyCnt} value={requestBody} onChange={v => setRequestBody(v)} onBlur={handleLeave} disabled={isBodyDisabled() || prog} />

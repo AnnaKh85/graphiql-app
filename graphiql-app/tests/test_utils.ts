@@ -34,11 +34,27 @@ export const addMock_1 = (vi: VitestUtils) => {
                 push: vi.fn(),
                 replace: vi.fn(),
             })),
-            useSearchParams: vi.fn(() => ({
-                // get: vi.fn(),
-            })),
-            usePathname: vi.fn(),
+            useSearchParams: vi.fn(() => {
+                const t = new URLSearchParams({  });
+                t.append("cXdl", "MTIz");
+                return t;
+            }),
+            usePathname: vi.fn(() => {
+                return "http://localhost:3001/restfulClient/GET/aHR0cHM6Ly9qc29ucGxhY2Vob2xkZXIudHlwaWNvZGUuY29tL3Bvc3RzLzE/IA?cXdl=MTIz";
+            }),
         };
     });
+    vi.mock("next-intl/server", async () => {
+        const actual = await vi.importActual('next-intl/server');
+        return {
+            ...actual,
+            getMessages: vi.fn(async () => {
+                return {"qwe": "123"};
+            }),
+            getLocale: vi.fn(async () => {
+                return "en";
+            }),
+        }
+    })
 }
 
