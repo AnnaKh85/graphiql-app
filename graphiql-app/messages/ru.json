@@ -25,8 +25,10 @@
     "BUTTONS": {
         "cancel": "Отмена",
         "enter": "Вход",
-        "registration": "Регистрация",
-        "save": "Сохранить"
+        "registration": "Ок",
+        "save": "Сохранить",
+        "return_to_enter": "на Вход",
+        "return_to_registration": "на Регистрацию"
     },
     "PROGRESS": {
         "value": "Загрузка"

@@ -68,7 +68,7 @@ export default function SignUp() {
 
 
     return (
-        <div className={"card"} style={{"width": "31rem"}}>
+        <div className={"card"} style={{"width": "41rem"}}>
             <div className={"card-body"}>
                 <h5 className={"card-title"}>{t("head")}</h5>
                 <form>
@@ -107,12 +107,12 @@ export default function SignUp() {
             </div>
 
             <div className="card-footer d-flex justify-content-center">
-                <button type="button" className={"btn btn-secondary mb-3 me-1"} onClick={handleOk}>{tBut("registration")}</button>
+                <button type="button" className={"btn btn-secondary btn-rss mb-3 me-1"} onClick={handleOk}>{tBut("registration")}</button>
                 <Link href={"./"}>
                     <button className={"btn btn-secondary btn-rss mb-3 me-1"}>{tBut("cancel")}</button>
                 </Link>
                 <Link href={"./signin"}>
-                    <button className={"btn btn-outline-success btn-rss mb-3"}> --&gt; {tBut("enter")}</button>
+                    <button className={"btn btn-outline-success btn-rss mb-3"}> --&gt; {tBut("return_to_enter")}</button>
                 </Link>
             </div>
         </div>

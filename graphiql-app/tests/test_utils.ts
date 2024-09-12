@@ -1,4 +1,5 @@
 import {readFile} from "fs/promises";
+import {VitestUtils} from 'vitest';
 
 export const loadMessagesFile_en = async () => {
     try {
@@ -21,5 +22,23 @@ export const loadMessagesFile_ru = async () => {
         console.error("Failed to read MESSAGE FILE: ", error)
     }
     return undefined;
+}
+
+
+export const addMock_1 = (vi: VitestUtils) => {
+    vi.mock("next/navigation", async () => {
+        const actual = await vi.importActual('next/navigation');
+        return {
+            ...actual,
+            useRouter: vi.fn(() => ({
+                push: vi.fn(),
+                replace: vi.fn(),
+            })),
+            useSearchParams: vi.fn(() => ({
+                // get: vi.fn(),
+            })),
+            usePathname: vi.fn(),
+        };
+    });
 }
 

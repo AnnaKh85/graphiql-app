@@ -108,7 +108,7 @@ a {
 
 
 .btn-rss {
-    width: 120px;
+    min-width: 120px;
 }
 
 .form-control-rss {

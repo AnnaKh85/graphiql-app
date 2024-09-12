@@ -45,7 +45,7 @@ export default function SignIn() {
 
 
     return (
-        <div className={"card"} style={{"width": "31rem"}}>
+        <div className={"card"} style={{"width": "41rem"}}>
             <div className={"card-body"}>
                 <h5 className={"card-title"}>{t("head")} 1@2.ru / 123123</h5>
                 <form>
@@ -65,7 +65,7 @@ export default function SignIn() {
                     <button className={"btn btn-secondary btn-rss mb-3 me-1"}>{tBut("cancel")}</button>
                 </Link>
                 <Link href={"./signup"}>
-                    <button className={"btn btn-outline-success mb-3"}> --&gt; {tBut("registration")}</button>
+                    <button className={"btn btn-outline-success mb-3"}> --&gt; {tBut("return_to_registration")}</button>
                 </Link>
             </div>
         </div>
