@@ -36,7 +36,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src",
-    "tests",
+    "src/**/*",
+    "tests/**/*",
     "node_modules/@types/node/globals.d.ts"
   ],
   "exclude": ["node_modules"]

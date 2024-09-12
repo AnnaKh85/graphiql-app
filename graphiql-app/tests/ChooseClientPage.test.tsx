@@ -14,7 +14,7 @@ const mockAuthProps: AuthProps = {
 };
 
 
-//Зкомментрровано, потому что решили грущзить из файла через библиотеку test_utils
+//Зкомментрровано, потому что решили грузить из файла через библиотеку test_utils
 // @deprecated
 const messagesMock = {
     CHOOSE: {welcome: 'Welcome'},

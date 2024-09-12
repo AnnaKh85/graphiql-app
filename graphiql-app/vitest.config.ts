@@ -9,9 +9,11 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './vitest.setup.ts',
     globals: true,
-    include: ['tests/**/*.test.tsx'],
+    include: ['tests/**/*.test.tsx', '**/*.{test,spec}.{ts,tsx}'],
     coverage: {
-      provider: 'istanbul'
+      provider: 'istanbul',
+      reporter: ['text', 'json', 'html'],
+      reportsDirectory: './coverage',
     },
     alias: {
       // "@":  new URL("./src", import.meta.url).pathname,

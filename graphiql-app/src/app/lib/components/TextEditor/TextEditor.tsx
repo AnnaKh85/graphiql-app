@@ -41,6 +41,7 @@ export default function TextEditor(props: Props) {
                   onBlur={props.onBlur}
                   style={{"minHeight": "150px"}}
                   disabled={!!props.disabled}
+                  data-testid="text-editor-textarea"
         ></textarea>
     </>;
 }
