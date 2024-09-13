@@ -7,7 +7,6 @@ import RestfulClientPage from "@app/(clients)/restfulClient/[method]/[[...params
 import {expect} from "vitest";
 import {EditHeadersModal} from "@app/lib/components/EditHeadersModal/EditHeadersModal";
 import {HttpHeader} from "@app/lib/types/types";
-import {aw} from "vitest/dist/chunks/reporters.C_zwCd4j";
 
 
 describe('RestfulClientPage', () => {
@@ -31,7 +30,7 @@ describe('RestfulClientPage', () => {
     });
 
 
-    it('Rest client -> Run', async (props) => {
+    it('Rest client -> Run GET', async (props) => {
         const messages = await loadMessagesFile_en();
 
         render(
@@ -49,8 +48,24 @@ describe('RestfulClientPage', () => {
             fireEvent.click(button);
         })
 
-        // const responseStatus = screen.getByText
 
+    });
+
+
+    it('Rest client -> Run POST', async (props) => {
+        const messages = await loadMessagesFile_en();
+
+        render(
+            <NextIntlClientProvider messages={messages} locale={"en"}>
+                <AuthProvider>
+                    <RestfulClientPage params={{method: "POST", paramsBase64: ["aHR0cHM6Ly9qc29ucGxhY2Vob2xkZXIudHlwaWNvZGUuY29tL3Bvc3RzLzE", "IA"]}} />
+                </AuthProvider>
+            </NextIntlClientProvider>
+        );
+
+
+        const button = screen.getByText("Run");
+        fireEvent.click(button);
     });
 
 

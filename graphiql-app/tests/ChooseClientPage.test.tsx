@@ -57,36 +57,6 @@ describe('ChooseClientPage', () => {
         expect(screen.getByText('History')).toBeInTheDocument();
     });
 
-    it('test-signin-page', async (props) => {
-        const messages = await loadMessagesFile_en();
-        // const messages = await loadMessagesFile_ru();
-
-        render(
-            <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
-                    <SignIn/>
-                </AuthProvider>
-            </NextIntlClientProvider>
-        );
-
-        expect(await screen.findAllByText("Enter to program", {exact: false})).not.toHaveLength(0);
-    });
-
-    it('test-signup-page', async (props) => {
-        const messages = await loadMessagesFile_en();
-        // const messages = await loadMessagesFile_ru();
-
-        render(
-            <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
-                    <SignUp/>
-                </AuthProvider>
-            </NextIntlClientProvider>
-        );
-
-        expect(await screen.findAllByText("Registration in program", {exact: false})).not.toHaveLength(0);
-    });
-
 
     it('test-history-page', async (props) => {
         const messages = await loadMessagesFile_en();

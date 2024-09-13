@@ -15,7 +15,6 @@ import {urlBuildService} from "@app/lib/urlBuildService";
 import {useTranslations} from "next-intl";
 import {HttpMethodSelector} from "@app/lib/components/HttpMethodSelector/HttpMethodSelector";
 import {EditHeadersModal} from "@app/lib/components/EditHeadersModal/EditHeadersModal";
-import {EditEqParamsModal} from "@app/lib/components/EditEqParamsModal/EditEqParamsModal";
 import {PROGRESS_CONTEXT} from "@app/lib/components/ProgressProvider/ProgressProvider";
 
 
@@ -43,7 +42,6 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
     const [responseText, setResponseText] = useState<string | undefined>(undefined);
 
     const [visibleEditHeadersModal, setVisibleEditHeadersModal] = useState<boolean>(false);
-    const [visibleEditEqParamsModal, setVisibleEditEqParamsModal] = useState<boolean>(false);
 
 
     React.useEffect(function() {
@@ -91,13 +89,6 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
         closeEditHeadersModal();
     }
 
-    function saveEpQueryParams(epQueryParams: QueryParam[]) {
-        setEpQueryParams(epQueryParams);
-        router.push(
-            urlBuildService.buildUrl_fromClient(path, params.paramsBase64, requestType, requestUrl, requestBody, headers)
-        )
-        closeEditEpQueryParamsModal();
-    }
 
 
     function addHeader(arr: HttpHeader[], key?: string, value?: string): HttpHeader[] {
@@ -153,8 +144,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                 data.method,
                 data.url,
                 requestBody,
-                headers,
-                epQueryParams
+                headers
             );
 
             let tempResponseStatus: string = res[1];
@@ -212,14 +202,6 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
     }
 
 
-    function openEditEpQueryParamsModal() {
-        setVisibleEditEqParamsModal(curr => true);
-    }
-    function closeEditEpQueryParamsModal() {
-        setVisibleEditEqParamsModal(curr => false);
-    }
-
-
     return <>
         <div className={"card min-vw-90"}>
             <div className={"card-body"}>
@@ -248,20 +230,6 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                                 <span className={"form-control"}>{renderHeadersCount()}</span>
                                 <div className={"input-group-text"}>
                                     <button className={"btn btn-sm btn-outline-secondary"} onClick={openEditHeadersModal} disabled={prog}>
-                                        <i className="bi bi-card-checklist"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={"row"}>
-                        <div className={"col-5"}>
-                            <label className={"col-form-label"}>{t("ep_query_params")}:</label>
-                            <div className={"input-group"}>
-                                <span className={"form-control"}>{renderEpQueryParamsCount()}</span>
-                                <div className={"input-group-text"}>
-                                    <button className={"btn btn-sm btn-outline-secondary"} onClick={openEditEpQueryParamsModal} disabled={prog}>
                                         <i className="bi bi-card-checklist"></i>
                                     </button>
                                 </div>
@@ -307,13 +275,6 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                 onOk={saveHeaders}
                 onCancel={closeEditHeadersModal}
                 headers={headers}
-            />
-        }
-        {visibleEditEqParamsModal &&
-            <EditEqParamsModal
-                onOk={saveEpQueryParams}
-                onCancel={closeEditEpQueryParamsModal}
-                epQueryParams={epQueryParams}
             />
         }
 

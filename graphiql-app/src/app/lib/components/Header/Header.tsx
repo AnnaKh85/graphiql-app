@@ -54,7 +54,7 @@ export default function Header(): React.ReactNode {
             </Link>
 
             <div className={"d-flex"}>
-                <select className={"form-select me-2"} value={lang} style={{"width": "220px"}} onChange={handleLocaleChange} >
+                <select className={"form-select me-2"} value={lang} style={{"width": "220px"}} onChange={handleLocaleChange} data-testid="locale-select-test">
                     <option value={"en"}>English</option>
                     <option value={"ru"}>Русский</option>
                 </select>

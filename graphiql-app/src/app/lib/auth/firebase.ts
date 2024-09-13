@@ -61,17 +61,6 @@ const registerWithEmailAndPassword = async (email: string, password: string) => 
     }
 };
 
-const sendPasswordReset = async (email: string) => {
-    try {
-        await sendPasswordResetEmail(auth, email);
-        alert("Password reset link sent!");
-    } catch (err) {
-        consoleLogValuesError(err);
-        if (err) {
-            alert((err as Error).message);
-        }
-    }
-};
 
 const logout = () => {
     return signOut(auth);
@@ -79,5 +68,5 @@ const logout = () => {
 
 
 
-export {registerWithEmailAndPassword, logInWithEmailAndPassword, sendPasswordReset, logout};
+export {registerWithEmailAndPassword, logInWithEmailAndPassword, logout};
 

@@ -33,11 +33,27 @@ export default function SignUp() {
         resolver: yupResolver(signupSchema),
         defaultValues: {
             email: "",
-            password: "123!@#",
-            passwordRepeat: "123!@#"
+            password: "123!@#qw",
+            passwordRepeat: "123!@#qw"
         },
         mode: "onChange"
     });
+
+
+    function registerIfChecked(email: string, pass: string) {
+        registerWithEmailAndPassword(email, pass).then(function(v) {
+            if (v != undefined) {
+                setAuthProps({
+                    isAuth: true,
+                    email: email,
+                    userId: email
+                });
+                router.push("/choose")
+            }
+        }, function (e) {
+            consoleLogError(e);
+        });
+    }
 
 
     function handleOk() {
@@ -46,19 +62,7 @@ export default function SignUp() {
                 const values = getValues();
                 const email = values.email;
                 const pass = values.password;
-
-                registerWithEmailAndPassword(email, pass).then(function(v) {
-                    if (v != undefined) {
-                        setAuthProps({
-                            isAuth: true,
-                            email: email,
-                            userId: email
-                        });
-                        router.push("/choose")
-                    }
-                }, function (e) {
-                    consoleLogError(e);
-                });
+                registerIfChecked(email, pass);
             }
         }, function(err) {
             consoleLogError(err);
@@ -77,6 +81,7 @@ export default function SignUp() {
                         <input type="email"
                                className="form-control"
                                id="inputEmail"
+                               data-testid="inputEmail-test"
                                placeholder={t("email")}
                                {...register("email")}
                         />
@@ -88,6 +93,7 @@ export default function SignUp() {
                         <input type="password"
                                className="form-control"
                                id="inputPass"
+                               data-testid="inputPass-test"
                                placeholder={t("password")}
                                {...register("password")}
                         />
@@ -95,10 +101,11 @@ export default function SignUp() {
                     </div>
 
                     <div className={"mb-3"}>
-                        <label htmlFor="inputPass" className={"form-label"}>{t("password_repeat")}</label>
+                        <label htmlFor="inputPass2" className={"form-label"}>{t("password_repeat")}</label>
                         <input type="password"
                                className="form-control"
-                               id="inputPass"
+                               id="inputPass2"
+                               data-testid="inputPass2-test"
                                placeholder={t("password_repeat")}
                                {...register("passwordRepeat")}
                         />

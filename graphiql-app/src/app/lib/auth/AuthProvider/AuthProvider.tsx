@@ -13,8 +13,13 @@ import {
 export const AUTH_CONTEXT = createContext<AuthContextType>(getDefaultAuthContextType());
 
 
-export default function AuthProvider(props: PropsWithChildren) {
-    const [auth, setAuth] = useState<AuthProps>(getDefaultAutProps_authenticated); //(getDefaultAutProps());
+type Props = {
+    defaultAuth?: AuthProps
+}
+
+
+export default function AuthProvider(props: PropsWithChildren<Props>) {
+    const [auth, setAuth] = useState<AuthProps>(props.defaultAuth ?? getDefaultAutProps_authenticated); //(getDefaultAutProps());
 
 
     return <AUTH_CONTEXT.Provider value={{authProps: auth, setAuthProps: setAuth}}>{props.children}</AUTH_CONTEXT.Provider>;

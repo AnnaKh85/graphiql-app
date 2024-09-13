@@ -34,7 +34,7 @@ const signupSchema = yup.object<SignupProps>().shape({
         .required("password is empty")
         .min(6)
         .max(100)
-        .matches(/[a-zA-Z0-9]/, PASSW_HELP)
+        // .matches(/[a-zA-Z0-9]/, PASSW_HELP)
         .test("isPasswordStrength", PASSW_HELP, isPasswordStrength),
     passwordRepeat: yup.string()
         .required()

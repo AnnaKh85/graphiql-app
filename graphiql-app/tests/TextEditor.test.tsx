@@ -23,11 +23,26 @@ describe('TextEditor', () => {
         // Initial render check
         const textarea = screen.getByTestId('text-editor-textarea', { exact: true });
         expect(textarea).toHaveValue('initial value');
-    
-        // Update props.value
+
         rerender(
             <TextEditor
                 beautifyTrigger={0}
+                value="{'updated':'value'}"
+                onChange={handleChange}
+            />
+        );
+
+        rerender(
+            <TextEditor
+                beautifyTrigger={1}
+                value="{'updated':'value'}"
+                onChange={handleChange}
+            />
+        );
+
+        rerender(
+            <TextEditor
+                beautifyTrigger={1}
                 value="updated value"
                 onChange={handleChange}
             />

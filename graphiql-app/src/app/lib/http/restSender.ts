@@ -4,24 +4,7 @@ import {HttpHeader, QueryParam, HttpMethods} from "@app/lib/types/types";
 import {notEmptyString, safeString} from "@app/lib/utils/stringUtils";
 
 
-// export async function getServerSideProps({params, req, res, query, preview, previewData, resolvedUrl, locale, locales, defaultLocale}) {
-//     consoleLogValues('Logging : '+res);
-//
-//
-//     const data = await fetch('https://jsonplaceholder.typicode.com/users');
-//     const users = await data.json();
-//     return { props: { users } }
-// }
-
-
-
-
-
-
-
-
-
-export async function doRestRequest(method: string, url: string, body?: string, headers?: HttpHeader[], queryParams?: QueryParam[]) {
+export async function doRestRequest(method: string, url: string, body?: string, headers?: HttpHeader[]) {
     const h: {[key: string]: string} = {};
     if (headers && headers.length) {
         headers.forEach(function(v) {

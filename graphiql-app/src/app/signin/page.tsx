@@ -33,9 +33,6 @@ export default function SignIn() {
                 });
 
                 router.push("/choose");
-
-                // @ts-ignore
-                // router.push("/choose", {locale: locale});
             }
         }, function (e) {
             consoleLogError(e);
