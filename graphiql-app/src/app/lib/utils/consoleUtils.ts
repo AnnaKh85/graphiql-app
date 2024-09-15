@@ -1,33 +1,34 @@
-const isDebugEnabled = true;
+let isDebug = true;
 
-
+function CHANGE_DEFAULT_DEBUG_VALUE(v: boolean) {
+  isDebug = v;
+}
 
 function consoleLog(text: string) {
-    if (isDebugEnabled)
-        console.log("1:" + text);
+  if (isDebug) console.log("1:" + text);
 }
 
 function consoleLogError(text: string) {
-    if (isDebugEnabled)
-        console.error("1:" + text);
+  if (isDebug) console.error("1:" + text);
 }
 
-
-
 function consoleLogValue(value: any) {
-    if (isDebugEnabled)
-        console.log(["2:", value]);
+  if (isDebug) console.log(["2:", value]);
 }
 
 function consoleLogValues(...values: any[]) {
-    if (isDebugEnabled)
-        console.log(["2:", ...values]);
+  if (isDebug) console.log(["2:", ...values]);
 }
 
 function consoleLogValuesError(...values: any[]) {
-    if (isDebugEnabled)
-        console.log(["2:", ...values]);
+  if (isDebug) console.log(["2:", ...values]);
 }
 
-
-export {consoleLog, consoleLogError, consoleLogValue, consoleLogValues, consoleLogValuesError};
+export {
+  CHANGE_DEFAULT_DEBUG_VALUE,
+  consoleLog,
+  consoleLogError,
+  consoleLogValue,
+  consoleLogValues,
+  consoleLogValuesError,
+};

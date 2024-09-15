@@ -1,77 +1,78 @@
 {
-    "HEADER": {
-        "btn_signup": "Sign Up",
-        "btn_signin": "Sign In",
-        "btn_logout": "Logout"
-    },
-    "FOOTER": {
-        "author": "Author",
-        "project": "Project"
-    },
-    "CHOOSE": {
-        "welcome": "Welcome"
-    },
-    "SIGNIN": {
-        "head": "Enter to program",
-        "email": "Email",
-        "password": "Password"
-    },
-    "SIGNUP": {
-        "head": "Registration in program",
-        "email": "Email",
-        "password": "Password",
-        "password_repeat": "Password repeat"
-    },
-    "BUTTONS": {
-        "cancel": "Cancel",
-        "enter": "Enter",
-        "registration": "Registration",
-        "save": "Save"
-    },
-    "PROGRESS": {
-        "value": "Loading"
-    },
-    "NOT_FOUND": {
-        "text": "Not found (404)"
-    },
-    "REST_CLIENT": {
-        "title": "REST Client",
-        "method": "Method",
-        "ep_url": "Endpoint URL",
-        "headers": "Headers",
-        "header_editor_title": "Headers editor",
-        "headers_of_cnt": "Headers count",
-        "column_headers_del": "Del",
-        "column_headers_key": "Key",
-        "column_headers_value": "Value",
-        "body": "Body",
-        "btn_execute": "Run",
-        "btn_clean": "Clear",
-        "ep_query_params": "Query parameters",
-        "ep_query_params_editor_title": "Query parameters editor",
-        "ep_query_params_of_cnt": "Query parameters count",
-        "column_qp_del": "Del",
-        "column_qp_key": "Key",
-        "column_qp_value": "Value"
-    },
-    "GRAPHIQL_CLIENT": {
-        "title": "GraphiQL Client"
-    },
-    "HISTORY": {
-        "title": "History",
-        "no_history": "You haven't executed any requests. It's empty here. Try:",
-        "column_time": "Time",
-        "column_client": "Client",
-        "column_method": "Method",
-        "column_url": "URL",
-        "column_response_status": "Resp.Status",
-        "column_goto": "Goto"
-    },
-    "RESPONSE": {
-        "title": "Response",
-        "status": "Status",
-        "body": "Body"
-    }
+  "HEADER": {
+    "btn_signup": "Sign Up",
+    "btn_signin": "Sign In",
+    "btn_logout": "Logout"
+  },
+  "FOOTER": {
+    "author": "Author",
+    "project": "Project"
+  },
+  "CHOOSE": {
+    "welcome": "Welcome"
+  },
+  "SIGNIN": {
+    "head": "Enter to program",
+    "email": "Email",
+    "password": "Password",
+    "error_login_pass": "Error: login/password"
+  },
+  "SIGNUP": {
+    "head": "Registration in program",
+    "email": "Email",
+    "password": "Password",
+    "password_repeat": "Password repeat"
+  },
+  "BUTTONS": {
+    "cancel": "Cancel",
+    "enter": "Enter",
+    "registration": "Ok",
+    "save": "Save",
+    "return_to_enter": "Go to Sign In",
+    "return_to_registration": "Go to Sign Up"
+  },
+  "PROGRESS": {
+    "value": "Loading"
+  },
+  "NOT_FOUND": {
+    "text": "Not found (404)"
+  },
+  "REST_CLIENT": {
+    "title": "REST Client",
+    "method": "Method",
+    "ep_url": "Endpoint URL",
+    "headers": "Headers",
+    "header_editor_title": "Headers editor",
+    "headers_of_cnt": "Headers count",
+    "column_headers_del": "Del",
+    "column_headers_key": "Key",
+    "column_headers_value": "Value",
+    "body": "Body",
+    "btn_execute": "Run",
+    "btn_clean": "Clear",
+    "ep_query_params": "Query parameters",
+    "ep_query_params_editor_title": "Query parameters editor",
+    "ep_query_params_of_cnt": "Query parameters count",
+    "column_qp_del": "Del",
+    "column_qp_key": "Key",
+    "column_qp_value": "Value"
+  },
+  "GRAPHIQL_CLIENT": {
+    "title": "GraphiQL Client"
+  },
+  "HISTORY": {
+    "title": "History",
+    "no_history": "You haven't executed any requests. It's empty here. Try:",
+    "column_time": "Time",
+    "column_client": "Client",
+    "column_method": "Method",
+    "column_url": "URL",
+    "column_response_status": "Resp.Status",
+    "column_goto": "Goto"
+  },
+  "RESPONSE": {
+    "title": "Response",
+    "status": "Status",
+    "body": "Body"
+  }
 }
-
-
