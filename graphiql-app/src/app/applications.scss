@@ -1,9 +1,7 @@
-@import 'bootstrap/scss/bootstrap.scss';
+@import "bootstrap/scss/bootstrap.scss";
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/utilities";
-
-
 
 //$grid-breakpoints: (
 //    xs: 0,
@@ -14,8 +12,6 @@
 //    xxl: 1400px
 //ljlkj
 //);
-
-
 
 //$utilities: map-merge(
 //    $utilities,
@@ -32,13 +28,12 @@
 //    )
 //);
 
-
 .min-vw-80 {
-    min-width: 80vw !important;
+  min-width: 80vw !important;
 }
 
 .min-vw-90 {
-    min-width: 90vw !important;
+  min-width: 90vw !important;
 }
 
 //$list-group-bg: #d5d5d5;

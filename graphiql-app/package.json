@@ -7,9 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint . --ext ts,tsx --fix",
+    "prettier-fix": "prettier --write .",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "prepare": "husky install"
   },
+
+    "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  },
+
   "dependencies": {
     "@hookform/resolvers": "3.9.0",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
@@ -21,7 +32,7 @@
     "firebase": "10.13.0",
     "js-beautify": "1.15.1",
     "next": "14.2.7",
-    "next-intl": "3.18.1",
+    "next-intl": "^3.18.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-firebase-hooks": "5.1.1",
@@ -30,7 +41,7 @@
   },
   "devDependencies": {
     "@testing-library/dom": "10.4.0",
-    "@testing-library/jest-dom": "6.5.0",
+    "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "16.0.1",
     "@types/js-beautify": "1.14.3",
     "@types/node": "20.16.1",
@@ -38,13 +49,27 @@
     "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react": "4.3.1",
     "@vitest/coverage-istanbul": "^2.0.5",
-    "eslint": "8",
+    "eslint": "^8.57.0",
     "eslint-config-next": "14.2.6",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.6",
     "jsdom": "25.0.0",
+    "lint-staged": "^15.2.10",
     "next-router-mock": "0.9.13",
+    "prettier": "^3.3.3",
     "sass": "1.77.8",
     "typescript": "5.5.4",
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "2.0.5"
+  },
+
+  "lint-staged": {
+    "*.{js, jsx,ts,tsx}": [
+      "eslint --quiet --fix"
+    ],
+    "*.{json,js,ts,jsx,tsx,html}": [
+      "prettier --write --ignore-unknown"
+    ]
   }
 }

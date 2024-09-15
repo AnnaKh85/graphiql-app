@@ -106,34 +106,36 @@ a {
   }
 }
 
-
 .btn-rss {
-    min-width: 120px;
+  min-width: 120px;
 }
 
 .form-control-rss {
-    min-width: 200px;
+  min-width: 200px;
 }
 
-nav.navbar-rss, ul.navbar-rss, li.navbar-rss  {
-    background-color: #d5d5d5;
+nav.navbar-rss,
+ul.navbar-rss,
+li.navbar-rss {
+  background-color: #d5d5d5;
 }
 
 ul.ul-footer-rss > li {
-    align-content: center;
-    text-align: center;
+  align-content: center;
+  text-align: center;
 }
 
-ul.validation-block-rss, p.validation-block-rss {
+ul.validation-block-rss,
+p.validation-block-rss {
   background-color: #fa8484;
 }
 
 .table-rss > tbody > * > * {
-    padding: 2px !important;
+  padding: 2px !important;
 }
 
 .modal .modal-header {
-    background-color: #d5d5d5;
+  background-color: #d5d5d5;
 }
 
 .modal .modal-footer {
