@@ -79,7 +79,7 @@ export default function Header(): React.ReactNode {
                 }
                 {
                     authProps.isAuth &&
-                    <button className={"btn btn-outline-secondary btn-rss me-2"} type="button" onClick={handleLogout}>
+                    <button className={"btn btn-outline-secondary btn-rss me-2"} type="button" onClick={handleLogout} data-testid="button-header-logout-test">
                         {t("btn_logout")}
                         &nbsp;
                         <i className="bi bi-door-open"></i>

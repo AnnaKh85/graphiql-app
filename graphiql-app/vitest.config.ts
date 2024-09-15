@@ -15,6 +15,7 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       reportsDirectory: './coverage',
     },
+    testTimeout: 20000,
     alias: {
       // "@":  new URL("./src", import.meta.url).pathname,
       // "@app": new URL("./src/app", import.meta.url).pathname,

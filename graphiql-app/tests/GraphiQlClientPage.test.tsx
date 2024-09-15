@@ -9,6 +9,7 @@ import {EditHeadersModal} from "@app/lib/components/EditHeadersModal/EditHeaders
 import {HttpHeader} from "@app/lib/types/types";
 import {aw} from "vitest/dist/chunks/reporters.C_zwCd4j";
 import GraphiQlClientPage from "@app/(clients)/graphiQlClient/page";
+import {getDefaultAutProps_authenticated} from "@app/lib/auth/auth.types";
 
 
 describe('GraphiQlClientPage', () => {
@@ -18,7 +19,7 @@ describe('GraphiQlClientPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <GraphiQlClientPage />
                 </AuthProvider>
             </NextIntlClientProvider>

@@ -14,7 +14,8 @@
     "SIGNIN": {
         "head": "Enter to program",
         "email": "Email",
-        "password": "Password"
+        "password": "Password",
+        "error_login_pass": "Error: login/password"
     },
     "SIGNUP": {
         "head": "Registration in program",

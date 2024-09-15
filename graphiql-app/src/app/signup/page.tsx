@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import {useContext, useState} from "react";
+import {useContext, useState, useEffect} from "react";
 import {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
 import {logInWithEmailAndPassword, registerWithEmailAndPassword} from "@app/lib/auth/firebase";
 import {consoleLogError} from "@app/lib/utils/consoleUtils";
@@ -11,6 +11,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import signupSchema from "@app/lib/validator/validator.signup.yup";
 import {useTranslations} from "next-intl";
+import {ErrorMessage} from "@app/lib/components/ErrorMessage/ErrorMessage";
 
 
 export type SignupProps = {
@@ -29,6 +30,8 @@ export default function SignUp() {
     const t = useTranslations("SIGNUP");
     const tBut = useTranslations("BUTTONS");
 
+    const [errMessage, setErrMessage] = useState<string | undefined>(undefined);
+
     const {register, trigger, formState: {errors, isValid}, getValues, setValue, control} = useForm({
         resolver: yupResolver(signupSchema),
         defaultValues: {
@@ -38,6 +41,14 @@ export default function SignUp() {
         },
         mode: "onChange"
     });
+
+    useEffect(function() {
+        setAuthProps({
+            isAuth: false,
+            userId: "",
+            email: ""
+        });
+    }, []);
 
 
     function registerIfChecked(email: string, pass: string) {
@@ -50,8 +61,12 @@ export default function SignUp() {
                 });
                 router.push("/choose")
             }
-        }, function (e) {
+        }, function(e) {
             consoleLogError(e);
+            throw new Error(e.message);
+        }).catch(function(reason) {
+            consoleLogError(reason);
+            setErrMessage((reason as Error).message);
         });
     }
 
@@ -76,6 +91,7 @@ export default function SignUp() {
             <div className={"card-body"}>
                 <h5 className={"card-title"}>{t("head")}</h5>
                 <form>
+                    {errMessage && <ErrorMessage message={errMessage} closed={() => setErrMessage(undefined)} />}
                     <div className={"mb-3"}>
                         <label htmlFor="inputEmail" className={"form-label"}>{t("email")}</label>
                         <input type="email"

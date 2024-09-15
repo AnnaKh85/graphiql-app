@@ -14,7 +14,8 @@
     "SIGNIN": {
         "head": "Вход в программу",
         "email": "Email",
-        "password": "Пароль"
+        "password": "Пароль",
+        "error_login_pass": "Ошибка: логин/пароль"
     },
     "SIGNUP": {
         "head": "Регистрация в программе",

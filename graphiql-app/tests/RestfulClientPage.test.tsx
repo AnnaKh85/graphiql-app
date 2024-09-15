@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen, fireEvent, waitFor} from '@testing-library/react';
+import {render, screen, fireEvent, waitFor, act} from '@testing-library/react';
 import {NextIntlClientProvider} from 'next-intl';
 import AuthProvider from "@app/lib/auth/AuthProvider/AuthProvider";
 import {loadMessagesFile_en} from "./test_utils";
@@ -7,6 +7,7 @@ import RestfulClientPage from "@app/(clients)/restfulClient/[method]/[[...params
 import {expect} from "vitest";
 import {EditHeadersModal} from "@app/lib/components/EditHeadersModal/EditHeadersModal";
 import {HttpHeader} from "@app/lib/types/types";
+import {getDefaultAutProps_authenticated} from "@app/lib/auth/auth.types";
 
 
 describe('RestfulClientPage', () => {
@@ -16,7 +17,7 @@ describe('RestfulClientPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <RestfulClientPage params={{method: "GET", paramsBase64: ["aHR0cHM6Ly9qc29ucGxhY2Vob2xkZXIudHlwaWNvZGUuY29tL3Bvc3RzLzE", "IA"]}} />
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -35,7 +36,7 @@ describe('RestfulClientPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <RestfulClientPage params={{method: "GET", paramsBase64: ["aHR0cHM6Ly9qc29ucGxhY2Vob2xkZXIudHlwaWNvZGUuY29tL3Bvc3RzLzE", "IA"]}} />
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -57,7 +58,7 @@ describe('RestfulClientPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <RestfulClientPage params={{method: "POST", paramsBase64: ["aHR0cHM6Ly9qc29ucGxhY2Vob2xkZXIudHlwaWNvZGUuY29tL3Bvc3RzLzE", "IA"]}} />
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -83,7 +84,7 @@ describe('RestfulClientPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <EditHeadersModal onOk={() => {}} onCancel={() => {}} headers={h} />
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -121,7 +122,7 @@ describe('RestfulClientPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <RestfulClientPage params={{method: "POST", paramsBase64: []}} />
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -132,9 +133,26 @@ describe('RestfulClientPage', () => {
         tes.forEach(function(te) {
             fireEvent.change(te, {key: "e", code: 49, target: {value: "ee"}}); //"1"
         })
+    });
+
+
+    it('Rest client -> edit HttpMethod', async (props) => {
+        const messages = await loadMessagesFile_en();
+
+        render(
+            <NextIntlClientProvider messages={messages} locale={"en"}>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
+                    <RestfulClientPage params={{method: "POST", paramsBase64: []}} />
+                </AuthProvider>
+            </NextIntlClientProvider>
+        );
 
 
         const sel = screen.getByTestId("http-method-selector-test");
+        act(() => {
+            fireEvent.change(sel, {key: "e", code: 49, target: {value: "PATCH"}}); //"1"
+            fireEvent.change(sel, {key: "e", code: 49, target: {value: "PUT"}}); //"1"
+        });
 
     });
 

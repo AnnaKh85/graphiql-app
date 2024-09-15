@@ -21,8 +21,7 @@ import Home from "@app/page";
 import {ProgressProvider} from "@app/lib/components/ProgressProvider/ProgressProvider";
 import {getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
 import {HistoryRecordType} from "@app/lib/types/types";
-import getRequestConfig from "@/i18n/request";
-import {GetRequestConfigParams} from "next-intl/dist/types/src/server/react-server/getRequestConfig";
+import {getDefaultAutProps_authenticated} from "@app/lib/auth/auth.types";
 
 
 describe('MainPage', () => {
@@ -65,7 +64,7 @@ describe('MainPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <Footer  />
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -79,7 +78,7 @@ describe('MainPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <Header  />
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -92,6 +91,14 @@ describe('MainPage', () => {
         act(() => {
             fireEvent.change(dropDown, {target: {value: "Русский"}});
         });
+
+
+
+        const btnLogout = screen.getByTestId("button-header-logout-test");
+        act(() => {
+            btnLogout.click();
+        });
+
     });
 
     it('render Not Found', async (props) => {
@@ -99,7 +106,7 @@ describe('MainPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <NotFoundPage />
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -111,7 +118,7 @@ describe('MainPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <Home />
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -125,15 +132,13 @@ describe('MainPage', () => {
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
                 <ProgressProvider>
-                    <AuthProvider>
+                    <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                         <Home />
                     </AuthProvider>
                 </ProgressProvider>
             </NextIntlClientProvider>
         );
     });
-
-
 
 
     it('userLocale testing', async (props) => {

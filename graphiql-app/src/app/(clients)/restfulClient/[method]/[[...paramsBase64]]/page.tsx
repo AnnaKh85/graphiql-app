@@ -45,10 +45,9 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
 
 
     React.useEffect(function() {
-        // if (! authProps.isAuth) {
-        //     router.push("./");
-        // }
-
+        if (! authProps.isAuth) {
+            router.push("./");
+        }
 
 
         const globalParamsBase64 = params.paramsBase64;

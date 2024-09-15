@@ -1,15 +1,8 @@
 // Import the functions you need from the SDKs you need
-import {initializeApp, FirebaseError} from "firebase/app";
+import {initializeApp} from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import {
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    sendPasswordResetEmail,
-    signOut, getAuth,
-} from "firebase/auth";
-import {getFirestore, collection, addDoc,} from "firebase/firestore";
-import {consoleLogValuesError} from "@app/lib/utils/consoleUtils";
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, getAuth,} from "firebase/auth";
 import {Auth, UserCredential, User} from "@firebase/auth";
 import {FirebaseApp} from "@firebase/app";
 
@@ -31,34 +24,15 @@ const auth: Auth = getAuth(app);
 
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
-    try {
-        return await signInWithEmailAndPassword(auth, email, password);
-    } catch (err: FirebaseError | any) {
-        if (err.code === "auth/invalid-credential") {
-            alert("Ошибка логин/пароль");
-        } else {
-            consoleLogValuesError(err);
-            if (err) {
-                alert((err as Error).message);
-            }
-        }
-    }
+    return await signInWithEmailAndPassword(auth, email, password);
 };
 
 
 const registerWithEmailAndPassword = async (email: string, password: string) => {
     const name = email;
-
-    try {
-        const res: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user: User = res.user;
-        return user;
-    } catch (err) {
-        consoleLogValuesError(err);
-        if (err) {
-            alert((err as Error).message);
-        }
-    }
+    const res: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user: User = res.user;
+    return user;
 };
 
 

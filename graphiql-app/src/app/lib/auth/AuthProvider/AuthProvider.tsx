@@ -19,7 +19,7 @@ type Props = {
 
 
 export default function AuthProvider(props: PropsWithChildren<Props>) {
-    const [auth, setAuth] = useState<AuthProps>(props.defaultAuth ?? getDefaultAutProps_authenticated); //(getDefaultAutProps());
+    const [auth, setAuth] = useState<AuthProps>(props.defaultAuth ?? getDefaultAutProps); //(getDefaultAutProps());
 
 
     return <AUTH_CONTEXT.Provider value={{authProps: auth, setAuthProps: setAuth}}>{props.children}</AUTH_CONTEXT.Provider>;

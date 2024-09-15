@@ -1,6 +1,7 @@
 import {readFile} from "fs/promises";
 import {VitestUtils} from 'vitest';
 import {UserCredential, Auth, User, IdTokenResult} from "@firebase/auth";
+import {FirebaseError} from "firebase/app";
 
 export const loadMessagesFile_en = async () => {
     try {
@@ -51,7 +52,7 @@ const getDefaultUserCredentials = () => {
         getIdTokenResult: async function(forceRefresh?: boolean) {
             const r: IdTokenResult = {
                 authTime: "string",
-                expirationTime: "string",
+                expirationTime: "0",
                 issuedAtTime: "string",
                 signInProvider: null,
                 signInSecondFactor: null,
@@ -132,15 +133,28 @@ export const addMock_1 = (vi: VitestUtils) => {
             },
             signInWithEmailAndPassword: (auth: Auth, email: string, password: string) => {
                 if (email === "2@2.ru") {
-                    throw new Error("1");
+                    const e: FirebaseError = {
+                        code: "other",
+                        message: "error user/password",
+                        name: "",
+                        stack: ""
+                    };
+
+                    throw e;
                 }
                 if (email === "3@3.ru") {
-                    throw new Error("auth/invalid-credential");
+                    const e: FirebaseError = {
+                        code: "auth/invalid-credential",
+                        message: "error user/password2",
+                        name: "",
+                        stack: ""
+                    };
+                    throw e;
                 }
                 return getDefaultUserCredentials();
             },
-            signOut: () => {
-
+            signOut: async () => {
+                return "ok";
             }
         }
     });

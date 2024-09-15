@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react';
 import {NextIntlClientProvider} from 'next-intl';
 import ChooseClientPage from '../src/app/choose/page';
 import AuthProvider from "@app/lib/auth/AuthProvider/AuthProvider";
-import {AuthProps} from "@app/lib/auth/auth.types";
+import {AuthProps, getDefaultAutProps_authenticated} from "@app/lib/auth/auth.types";
 import {loadMessagesFile_en} from "./test_utils";
 import {vi} from "vitest";
 import SignIn from "@app/signin/page";
@@ -45,7 +45,7 @@ describe('ChooseClientPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <ChooseClientPage/>
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -63,7 +63,7 @@ describe('ChooseClientPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <HistoryPage/>
                 </AuthProvider>
             </NextIntlClientProvider>
@@ -85,7 +85,7 @@ describe('ChooseClientPage', () => {
 
         render(
             <NextIntlClientProvider messages={messages} locale={"en"}>
-                <AuthProvider>
+                <AuthProvider defaultAuth={getDefaultAutProps_authenticated()}>
                     <HistoryPage/>
                 </AuthProvider>
             </NextIntlClientProvider>
