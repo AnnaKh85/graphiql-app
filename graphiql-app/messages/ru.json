@@ -1,0 +1,78 @@
+{
+  "HEADER": {
+    "btn_signup": "Регистрация",
+    "btn_signin": "Вход",
+    "btn_logout": "Выход"
+  },
+  "FOOTER": {
+    "author": "Автор",
+    "project": "Проект"
+  },
+  "CHOOSE": {
+    "welcome": "Добро пожаловать"
+  },
+  "SIGNIN": {
+    "head": "Вход в программу",
+    "email": "Email",
+    "password": "Пароль",
+    "error_login_pass": "Ошибка: логин/пароль"
+  },
+  "SIGNUP": {
+    "head": "Регистрация в программе",
+    "email": "Email",
+    "password": "Пароль",
+    "password_repeat": "Повторить пароль"
+  },
+  "BUTTONS": {
+    "cancel": "Отмена",
+    "enter": "Вход",
+    "registration": "Ок",
+    "save": "Сохранить",
+    "return_to_enter": "на Вход",
+    "return_to_registration": "на Регистрацию"
+  },
+  "PROGRESS": {
+    "value": "Загрузка"
+  },
+  "NOT_FOUND": {
+    "text": "Страница не найдена (404)"
+  },
+  "REST_CLIENT": {
+    "title": "REST клиент",
+    "method": "Метод",
+    "ep_url": "Вызываемый URL",
+    "headers": "Заголовки",
+    "header_editor_title": "Редактор заголовков",
+    "headers_of_cnt": "Заголовков",
+    "column_headers_del": "Удал",
+    "column_headers_key": "Ключ",
+    "column_headers_value": "Значение",
+    "body": "Тело",
+    "btn_execute": "Выполнить",
+    "btn_clean": "Очистить",
+    "ep_query_params": "Параметры запроса",
+    "ep_query_params_editor_title": "Редактор параметров запроса",
+    "ep_query_params_of_cnt": "Параметров",
+    "column_qp_del": "Удал",
+    "column_qp_key": "Ключ",
+    "column_qp_value": "Значение"
+  },
+  "GRAPHIQL_CLIENT": {
+    "title": "GraphiQL клиент"
+  },
+  "HISTORY": {
+    "title": "Иcтория",
+    "no_history": "Не найдено ни одного сформированного запроса. История пуста.<br>Переход:",
+    "column_time": "Время",
+    "column_client": "Клиент",
+    "column_method": "Метод",
+    "column_url": "URL",
+    "column_response_status": "Стат.ответа",
+    "column_goto": "Перейти"
+  },
+  "RESPONSE": {
+    "title": "Ответ",
+    "status": "Статус",
+    "body": "Тело"
+  }
+}
