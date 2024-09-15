@@ -115,6 +115,29 @@ describe('RestfulClientPage', () => {
         btnSave.click();
     });
 
+
+    it('Rest client -> edit url', async (props) => {
+        const messages = await loadMessagesFile_en();
+
+        render(
+            <NextIntlClientProvider messages={messages} locale={"en"}>
+                <AuthProvider>
+                    <RestfulClientPage params={{method: "POST", paramsBase64: []}} />
+                </AuthProvider>
+            </NextIntlClientProvider>
+        );
+
+
+        const tes = screen.getAllByTestId("text-editor-textarea");
+        tes.forEach(function(te) {
+            fireEvent.change(te, {key: "e", code: 49, target: {value: "ee"}}); //"1"
+        })
+
+
+        const sel = screen.getByTestId("http-method-selector-test");
+
+    });
+
 });
 
 

@@ -212,7 +212,7 @@ export default function RestfulClientPage({params}: {params: {method: string, pa
                         <div className={"col-3"}>
                             <div className="mb-1">
                                 <label className={"form-label"}>{t("method")}</label>
-                                <HttpMethodSelector onChange={handleChangeRequestType} defaultValue={requestType} disabled={prog} />
+                                <HttpMethodSelector onChange={handleChangeRequestType} defaultValue={requestType} disabled={prog} data-testid="http-method-selector-test" />
                             </div>
                         </div>
                         <div className={"col-9"}>

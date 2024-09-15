@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {render, screen, act, fireEvent} from '@testing-library/react';
 import {NextIntlClientProvider} from 'next-intl';
-import AuthProvider, {AUTH_CONTEXT} from "@app/lib/auth/AuthProvider/AuthProvider";
+import AuthProvider from "@app/lib/auth/AuthProvider/AuthProvider";
 import {loadMessagesFile_en} from "./test_utils";
 import {metadata} from "@app/layout";
 import {expect} from "vitest";
@@ -16,6 +16,13 @@ import {
 } from "@app/lib/utils/convert";
 import {makeItBeautiful} from "@app/lib/utils/beautifyUtils";
 import Main from "@app/lib/components/Main/Main";
+import NotFoundPage from "@app/not-found";
+import Home from "@app/page";
+import {ProgressProvider} from "@app/lib/components/ProgressProvider/ProgressProvider";
+import {getAppLocalStorage} from "@app/lib/store/LocalStorageStore";
+import {HistoryRecordType} from "@app/lib/types/types";
+import getRequestConfig from "@/i18n/request";
+import {GetRequestConfigParams} from "next-intl/dist/types/src/server/react-server/getRequestConfig";
 
 
 describe('MainPage', () => {
@@ -87,6 +94,48 @@ describe('MainPage', () => {
         });
     });
 
+    it('render Not Found', async (props) => {
+        const messages = await loadMessagesFile_en();
+
+        render(
+            <NextIntlClientProvider messages={messages} locale={"en"}>
+                <AuthProvider>
+                    <NotFoundPage />
+                </AuthProvider>
+            </NextIntlClientProvider>
+        );
+    });
+
+    it('render Home', async (props) => {
+        const messages = await loadMessagesFile_en();
+
+        render(
+            <NextIntlClientProvider messages={messages} locale={"en"}>
+                <AuthProvider>
+                    <Home />
+                </AuthProvider>
+            </NextIntlClientProvider>
+        );
+    });
+
+
+    it('render with Progress', async (props) => {
+        const messages = await loadMessagesFile_en();
+
+        render(
+            <NextIntlClientProvider messages={messages} locale={"en"}>
+                <ProgressProvider>
+                    <AuthProvider>
+                        <Home />
+                    </AuthProvider>
+                </ProgressProvider>
+            </NextIntlClientProvider>
+        );
+    });
+
+
+
+
     it('userLocale testing', async (props) => {
         await getUserLocale();
         await setUserLocale("en");
@@ -99,6 +148,20 @@ describe('MainPage', () => {
 
     it('beautify testing', (props) => {
         makeItBeautiful('{"123": "qwe"}');
+    });
+
+    it('localStorage', (props) => {
+        const ls = getAppLocalStorage();
+        ls.addToHistory(
+            {
+                method: "GET",
+                paramsBase64: [],
+                url: "",
+                headers: []
+            },
+            HistoryRecordType.REST,
+            "testUser"
+        );
     });
 });
 

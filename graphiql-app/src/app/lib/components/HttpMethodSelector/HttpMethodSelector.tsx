@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, HTMLProps, HTMLAttributes} from "react";
 import {HttpMethodsFunc} from "@app/lib/types/types";
 
 
@@ -6,7 +6,7 @@ export type Props = {
     defaultValue?: string,
     onChange: (value: string) => void,
     disabled?: boolean
-}
+} & Omit<HTMLAttributes<HTMLSelectElement>, 'onChange'>
 
 
 export const HttpMethodSelector: React.FC<Props> = (props) => {
